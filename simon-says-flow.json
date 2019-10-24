@@ -1,0 +1,331 @@
+[
+    {
+        "id": "ed780f98.13844",
+        "type": "tab",
+        "label": "Simon Says",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ea38cfe9.1305e",
+        "type": "mqtt in",
+        "z": "ed780f98.13844",
+        "name": "",
+        "topic": "simon_says",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6ac37b43.9b38f4",
+        "x": 210,
+        "y": 100,
+        "wires": [
+            [
+                "95166844.73e158"
+            ]
+        ]
+    },
+    {
+        "id": "68e19d.f2d04e64",
+        "type": "inject",
+        "z": "ed780f98.13844",
+        "name": "Example Green",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"btn1\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 200,
+        "y": 160,
+        "wires": [
+            [
+                "95166844.73e158"
+            ]
+        ]
+    },
+    {
+        "id": "1d365b51.916755",
+        "type": "inject",
+        "z": "ed780f98.13844",
+        "name": "Example Red",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"btn2\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 210,
+        "y": 220,
+        "wires": [
+            [
+                "95166844.73e158"
+            ]
+        ]
+    },
+    {
+        "id": "bd990c2e.4bcd1",
+        "type": "inject",
+        "z": "ed780f98.13844",
+        "name": "Example Blue",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"btn3\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 210,
+        "y": 280,
+        "wires": [
+            [
+                "95166844.73e158"
+            ]
+        ]
+    },
+    {
+        "id": "cf4d9adf.f5ee18",
+        "type": "inject",
+        "z": "ed780f98.13844",
+        "name": "Example Yellow",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"btn4\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 200,
+        "y": 340,
+        "wires": [
+            [
+                "95166844.73e158"
+            ]
+        ]
+    },
+    {
+        "id": "95166844.73e158",
+        "type": "switch",
+        "z": "ed780f98.13844",
+        "name": "Check Button",
+        "property": "payload.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "btn1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "btn2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "btn3",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "btn4",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 460,
+        "y": 100,
+        "wires": [
+            [
+                "b7c92bb5.5d3e38"
+            ],
+            [
+                "ec43d47e.427aa8"
+            ],
+            [
+                "caf75c22.3210e"
+            ],
+            [
+                "40cbb579.ad20cc"
+            ]
+        ],
+        "outputLabels": [
+            "Green",
+            "Red",
+            "Blue",
+            "Yellow"
+        ]
+    },
+    {
+        "id": "dc65dcb8.0dfdb",
+        "type": "inject",
+        "z": "ed780f98.13844",
+        "name": "Reset Variables",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 200,
+        "y": 440,
+        "wires": [
+            [
+                "2282cbd.0746234"
+            ]
+        ]
+    },
+    {
+        "id": "2282cbd.0746234",
+        "type": "function",
+        "z": "ed780f98.13844",
+        "name": "Set Variables",
+        "func": "global.set('round',1);\nglobal.set('position',1);\nglobal.set('round_1',\"{\\\"next\\\":\\\"green\\\"}\")\nglobal.set('round_2',\"{\\\"next\\\":\\\"green blue\\\"}\")\nglobal.set('round_3',\"{\\\"next\\\":\\\"green blue blue\\\"}\")\nglobal.set('round_4',\"{\\\"next\\\":\\\"green blue blue yellow\\\"}\")\nglobal.set('round_5',\"{\\\"next\\\":\\\"green blue blue yellow red\\\"}\")\nglobal.set('finish',\"{\\\"next\\\":\\\"finish\\\"}\")",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 410,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "13a708ed.ebb397",
+        "type": "comment",
+        "z": "ed780f98.13844",
+        "name": "Round Description",
+        "info": "ROUND 1: Green\nROUND 2: Green Blue\nROUND 3: Green Blue Blue\nROUND 4: Green Blue Blue Yellow\nROUND 5: Green Blue Blue Yellow Red",
+        "x": 790,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b7c92bb5.5d3e38",
+        "type": "function",
+        "z": "ed780f98.13844",
+        "name": "Validate Green",
+        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 1){\n    msg.payload = global.get('round_2');\n    global.set('round',round+1);\n    return msg;\n}\nif(position === 1){\n    global.set('position',position+1);\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 80,
+        "wires": [
+            [
+                "45c616b.3df3de8",
+                "99af6a76.5951d8"
+            ]
+        ]
+    },
+    {
+        "id": "45c616b.3df3de8",
+        "type": "debug",
+        "z": "ed780f98.13844",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1120,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "99af6a76.5951d8",
+        "type": "mqtt out",
+        "z": "ed780f98.13844",
+        "name": "",
+        "topic": "simon_says/set",
+        "qos": "",
+        "retain": "",
+        "broker": "6ac37b43.9b38f4",
+        "x": 1140,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ec43d47e.427aa8",
+        "type": "function",
+        "z": "ed780f98.13844",
+        "name": "Validate Red",
+        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 1 || round === 2 || round === 3 || round === 4){\n    return msg;\n}\nif(round === 5 && position === 5){\n    msg.payload = global.get('finish');\n    global.set('position',1);\n    global.set('round',1);\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 790,
+        "y": 120,
+        "wires": [
+            [
+                "45c616b.3df3de8",
+                "99af6a76.5951d8"
+            ]
+        ]
+    },
+    {
+        "id": "caf75c22.3210e",
+        "type": "function",
+        "z": "ed780f98.13844",
+        "name": "Validate Blue",
+        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 1){\n    return msg;\n}\nif(round === 2 && position === 2){\n    msg.payload = global.get('round_3');\n    global.set('position',1);\n    global.set('round',round+1);\n    return msg;\n}\nif(round === 3 && position === 3){\n    msg.payload = global.get('round_4');\n    global.set('position',1);\n    global.set('round',round+1);\n    return msg;\n}\nif(position === 2 || position === 3){\n    global.set('position',position+1);\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 790,
+        "y": 160,
+        "wires": [
+            [
+                "45c616b.3df3de8",
+                "99af6a76.5951d8"
+            ]
+        ]
+    },
+    {
+        "id": "40cbb579.ad20cc",
+        "type": "function",
+        "z": "ed780f98.13844",
+        "name": "Validate Yellow",
+        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 4 && position === 4){\n    msg.payload = global.get('round_5');\n    global.set('position',1);\n    global.set('round',round+1);\n    return msg;\n}\nif(position === 4){\n    global.set('position',position+1);\n}\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 200,
+        "wires": [
+            [
+                "45c616b.3df3de8",
+                "99af6a76.5951d8"
+            ]
+        ]
+    },
+    {
+        "id": "46619ea5.1b67d",
+        "type": "comment",
+        "z": "ed780f98.13844",
+        "name": "ToDos",
+        "info": "",
+        "x": 1090,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "6ac37b43.9b38f4",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "mqtt",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
