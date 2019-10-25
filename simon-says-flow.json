@@ -19,7 +19,7 @@
         "y": 100,
         "wires": [
             [
-                "95166844.73e158"
+                "b228af8c.5d15b"
             ]
         ]
     },
@@ -39,7 +39,7 @@
         "y": 160,
         "wires": [
             [
-                "95166844.73e158"
+                "b228af8c.5d15b"
             ]
         ]
     },
@@ -59,7 +59,7 @@
         "y": 220,
         "wires": [
             [
-                "95166844.73e158"
+                "b228af8c.5d15b"
             ]
         ]
     },
@@ -79,7 +79,7 @@
         "y": 280,
         "wires": [
             [
-                "95166844.73e158"
+                "b228af8c.5d15b"
             ]
         ]
     },
@@ -99,63 +99,8 @@
         "y": 340,
         "wires": [
             [
-                "95166844.73e158"
+                "b228af8c.5d15b"
             ]
-        ]
-    },
-    {
-        "id": "95166844.73e158",
-        "type": "switch",
-        "z": "ed780f98.13844",
-        "name": "Check Button",
-        "property": "payload.id",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "btn1",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "btn2",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "btn3",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "btn4",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 4,
-        "x": 460,
-        "y": 100,
-        "wires": [
-            [
-                "b7c92bb5.5d3e38"
-            ],
-            [
-                "ec43d47e.427aa8"
-            ],
-            [
-                "caf75c22.3210e"
-            ],
-            [
-                "40cbb579.ad20cc"
-            ]
-        ],
-        "outputLabels": [
-            "Green",
-            "Red",
-            "Blue",
-            "Yellow"
         ]
     },
     {
@@ -183,37 +128,14 @@
         "type": "function",
         "z": "ed780f98.13844",
         "name": "Set Variables",
-        "func": "global.set('round',1);\nglobal.set('position',1);\nglobal.set('round_1',\"{\\\"next\\\":\\\"green\\\"}\")\nglobal.set('round_2',\"{\\\"next\\\":\\\"green blue\\\"}\")\nglobal.set('round_3',\"{\\\"next\\\":\\\"green blue blue\\\"}\")\nglobal.set('round_4',\"{\\\"next\\\":\\\"green blue blue yellow\\\"}\")\nglobal.set('round_5',\"{\\\"next\\\":\\\"green blue blue yellow red\\\"}\")\nglobal.set('finish',\"{\\\"next\\\":\\\"finish\\\"}\")",
-        "outputs": 0,
+        "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_1',\"{\\\"next\\\":\\\"green\\\"}\")\nglobal.set('round_2',\"{\\\"next\\\":\\\"green blue\\\"}\")\nglobal.set('round_3',\"{\\\"next\\\":\\\"green blue blue\\\"}\")\nglobal.set('round_4',\"{\\\"next\\\":\\\"green blue blue yellow\\\"}\")\nglobal.set('round_5',\"{\\\"next\\\":\\\"green blue blue yellow red\\\"}\")\nglobal.set('round_6',\"{\\\"next\\\":\\\"solved\\\"}\")\n\nmsg.payload = global.get(\"round_1\");\nreturn msg;",
+        "outputs": 1,
         "noerr": 0,
         "x": 410,
         "y": 440,
-        "wires": []
-    },
-    {
-        "id": "13a708ed.ebb397",
-        "type": "comment",
-        "z": "ed780f98.13844",
-        "name": "Round Description",
-        "info": "ROUND 1: Green\nROUND 2: Green Blue\nROUND 3: Green Blue Blue\nROUND 4: Green Blue Blue Yellow\nROUND 5: Green Blue Blue Yellow Red",
-        "x": 790,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "b7c92bb5.5d3e38",
-        "type": "function",
-        "z": "ed780f98.13844",
-        "name": "Validate Green",
-        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 1){\n    msg.payload = global.get('round_2');\n    global.set('round',round+1);\n    return msg;\n}\nif(position === 1){\n    global.set('position',position+1);\n}\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 800,
-        "y": 80,
         "wires": [
             [
-                "45c616b.3df3de8",
-                "99af6a76.5951d8"
+                "bdac4dd0.1227d"
             ]
         ]
     },
@@ -221,15 +143,15 @@
         "id": "45c616b.3df3de8",
         "type": "debug",
         "z": "ed780f98.13844",
-        "name": "",
+        "name": "Print next round",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 1120,
-        "y": 80,
+        "x": 700,
+        "y": 200,
         "wires": []
     },
     {
@@ -241,20 +163,20 @@
         "qos": "",
         "retain": "",
         "broker": "6ac37b43.9b38f4",
-        "x": 1140,
-        "y": 140,
+        "x": 700,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "ec43d47e.427aa8",
+        "id": "b228af8c.5d15b",
         "type": "function",
         "z": "ed780f98.13844",
-        "name": "Validate Red",
-        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 1 || round === 2 || round === 3 || round === 4){\n    return msg;\n}\nif(round === 5 && position === 5){\n    msg.payload = global.get('finish');\n    global.set('position',1);\n    global.set('round',1);\n    return msg;\n}",
+        "name": "validate",
+        "func": "// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_json = global.get('round_'+round);\nvar round_string = JSON.parse(round_json).next;\nvar round_values = round_string.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"btn1\":\n        button_color = \"green\";\n        break;\n    case \"btn2\":\n        button_color = \"red\";\n        break;\n    case \"btn3\":\n        button_color = \"blue\";\n        break;\n    case \"btn4\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'finish'){\n    node.warn(round_values[0]);\n    msg.payload = round_json;\n    return msg;\n}else{\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    msg.payload = global.get('round_1');\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 790,
-        "y": 120,
+        "x": 480,
+        "y": 220,
         "wires": [
             [
                 "45c616b.3df3de8",
@@ -263,47 +185,18 @@
         ]
     },
     {
-        "id": "caf75c22.3210e",
-        "type": "function",
+        "id": "bdac4dd0.1227d",
+        "type": "debug",
         "z": "ed780f98.13844",
-        "name": "Validate Blue",
-        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 1){\n    return msg;\n}\nif(round === 2 && position === 2){\n    msg.payload = global.get('round_3');\n    global.set('position',1);\n    global.set('round',round+1);\n    return msg;\n}\nif(round === 3 && position === 3){\n    msg.payload = global.get('round_4');\n    global.set('position',1);\n    global.set('round',round+1);\n    return msg;\n}\nif(position === 2 || position === 3){\n    global.set('position',position+1);\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 790,
-        "y": 160,
-        "wires": [
-            [
-                "45c616b.3df3de8",
-                "99af6a76.5951d8"
-            ]
-        ]
-    },
-    {
-        "id": "40cbb579.ad20cc",
-        "type": "function",
-        "z": "ed780f98.13844",
-        "name": "Validate Yellow",
-        "func": "var round = global.get('round');\nvar position = global.get('position');\nmsg.payload = global.get('round_1');\nif(round === 4 && position === 4){\n    msg.payload = global.get('round_5');\n    global.set('position',1);\n    global.set('round',round+1);\n    return msg;\n}\nif(position === 4){\n    global.set('position',position+1);\n}\n\n\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 800,
-        "y": 200,
-        "wires": [
-            [
-                "45c616b.3df3de8",
-                "99af6a76.5951d8"
-            ]
-        ]
-    },
-    {
-        "id": "46619ea5.1b67d",
-        "type": "comment",
-        "z": "ed780f98.13844",
-        "name": "ToDos",
-        "info": "",
-        "x": 1090,
-        "y": 240,
+        "name": "Print first round",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 400,
+        "y": 500,
         "wires": []
     },
     {
