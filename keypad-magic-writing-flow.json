@@ -1,0 +1,1 @@
+[{"id":"b00933f9.354378","type":"inject","z":"c6f6ac8d.a8755","name":"Set Orange","topic":"","payload":"{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":153,\"b\":0}}","payloadType":"json","repeat":"","crontab":"","once":true,"onceDelay":0.1,"x":250,"y":100,"wires":[["b3526193.aa81b"]]}]
