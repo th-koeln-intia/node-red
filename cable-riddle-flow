@@ -1,0 +1,109 @@
+[
+    {
+        "id": "4209f080.e988c",
+        "type": "tab",
+        "label": "Cables",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "996a388a.dd27e8",
+        "type": "mqtt in",
+        "z": "4209f080.e988c",
+        "name": "",
+        "topic": "cable-riddle",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6ac37b43.9b38f4",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "7990c0bb.9baea",
+                "fc7c6d13.67968"
+            ]
+        ]
+    },
+    {
+        "id": "7990c0bb.9baea",
+        "type": "function",
+        "z": "4209f080.e988c",
+        "name": "Check cables",
+        "func": "// Configure cables\n// 0 = Connected\n// 1 = Not Connected\nvar yellow = 1;\nvar blue = 0;\nvar white = 1;\nvar green = 0;\nvar black = 0;\nvar red = 1;\nvar orange = 0;\n\n// Check value\nvar value = parseInt(msg.payload.split(\":\")[1]);\nvar factor = 1;\nvar sum=orange*1+red*10+black*100+green*1000+white*10000+blue*100000+yellow*1000000;\n\nif(sum === value){\n    node.warn(\"Solved\");\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "4aca0845.f110f8"
+            ]
+        ]
+    },
+    {
+        "id": "4aca0845.f110f8",
+        "type": "function",
+        "z": "4209f080.e988c",
+        "name": "ACK",
+        "func": "msg.payload=\"{\\\"ack\\\":1}\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 510,
+        "y": 160,
+        "wires": [
+            [
+                "76622c04.a53cd4"
+            ]
+        ]
+    },
+    {
+        "id": "76622c04.a53cd4",
+        "type": "mqtt out",
+        "z": "4209f080.e988c",
+        "name": "",
+        "topic": "cable-riddle/set",
+        "qos": "",
+        "retain": "",
+        "broker": "6ac37b43.9b38f4",
+        "x": 720,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "fc7c6d13.67968",
+        "type": "debug",
+        "z": "4209f080.e988c",
+        "name": "Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 330,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6ac37b43.9b38f4",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "mqtt",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
