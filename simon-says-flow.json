@@ -11,15 +11,16 @@
         "type": "mqtt in",
         "z": "ed780f98.13844",
         "name": "",
-        "topic": "simon_says",
+        "topic": "simon",
         "qos": "2",
-        "datatype": "auto",
+        "datatype": "json",
         "broker": "6ac37b43.9b38f4",
-        "x": 210,
+        "x": 190,
         "y": 100,
         "wires": [
             [
-                "b228af8c.5d15b"
+                "b228af8c.5d15b",
+                "ea2deaa8.52a968"
             ]
         ]
     },
@@ -128,14 +129,15 @@
         "type": "function",
         "z": "ed780f98.13844",
         "name": "Set Variables",
-        "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_1',\"{\\\"next\\\":\\\"green\\\"}\")\nglobal.set('round_2',\"{\\\"next\\\":\\\"green blue\\\"}\")\nglobal.set('round_3',\"{\\\"next\\\":\\\"green blue blue\\\"}\")\nglobal.set('round_4',\"{\\\"next\\\":\\\"green blue blue yellow\\\"}\")\nglobal.set('round_5',\"{\\\"next\\\":\\\"green blue blue yellow red\\\"}\")\nglobal.set('round_6',\"{\\\"next\\\":\\\"solved\\\"}\")\n\nmsg.payload = global.get(\"round_1\");\nreturn msg;",
+        "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_1',\"green\")\nglobal.set('round_2',\"green blue\")\nglobal.set('round_3',\"green blue blue\")\nglobal.set('round_4',\"green blue blue yellow\")\nglobal.set('round_5',\"green blue blue yellow red\")\nglobal.set('round_6',\"solved\")\n\nmsg.payload = global.get(\"round_1\");\nreturn msg;\n/*\nglobal.set('round_1',\"{\\\"next\\\":\\\"green\\\"}\")\nglobal.set('round_2',\"{\\\"next\\\":\\\"green blue\\\"}\")\nglobal.set('round_3',\"{\\\"next\\\":\\\"green blue blue\\\"}\")\nglobal.set('round_4',\"{\\\"next\\\":\\\"green blue blue yellow\\\"}\")\nglobal.set('round_5',\"{\\\"next\\\":\\\"green blue blue yellow red\\\"}\")\nglobal.set('round_6',\"{\\\"next\\\":\\\"solved\\\"}\")\n*/",
         "outputs": 1,
         "noerr": 0,
         "x": 410,
         "y": 440,
         "wires": [
             [
-                "bdac4dd0.1227d"
+                "bdac4dd0.1227d",
+                "99af6a76.5951d8"
             ]
         ]
     },
@@ -159,11 +161,11 @@
         "type": "mqtt out",
         "z": "ed780f98.13844",
         "name": "",
-        "topic": "simon_says/set",
+        "topic": "simon/set",
         "qos": "",
         "retain": "",
         "broker": "6ac37b43.9b38f4",
-        "x": 700,
+        "x": 680,
         "y": 280,
         "wires": []
     },
@@ -172,7 +174,7 @@
         "type": "function",
         "z": "ed780f98.13844",
         "name": "validate",
-        "func": "// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_json = global.get('round_'+round);\nvar round_string = JSON.parse(round_json).next;\nvar round_values = round_string.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"btn1\":\n        button_color = \"green\";\n        break;\n    case \"btn2\":\n        button_color = \"red\";\n        break;\n    case \"btn3\":\n        button_color = \"blue\";\n        break;\n    case \"btn4\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'finish'){\n    node.warn(round_values[0]);\n    msg.payload = round_json;\n    return msg;\n}else{\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    msg.payload = global.get('round_1');\n    return msg;\n}",
+        "func": "// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_raw = global.get('round_'+round);\nvar round_values = round_raw.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"green\":\n        button_color = \"green\";\n        break;\n    case \"red\":\n        button_color = \"red\";\n        break;\n    case \"blue\":\n        button_color = \"blue\";\n        break;\n    case \"yellow\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'finish'){\n    node.warn(round_values[0]);\n    msg.payload = round_json;\n    return msg;\n}else{\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    msg.payload = global.get('round_1');\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "x": 480,
@@ -196,7 +198,21 @@
         "complete": "payload",
         "targetType": "msg",
         "x": 400,
-        "y": 500,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ea2deaa8.52a968",
+        "type": "debug",
+        "z": "ed780f98.13844",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 560,
+        "y": 120,
         "wires": []
     },
     {
