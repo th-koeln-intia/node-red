@@ -1,1 +1,627 @@
-[{"id":"b00933f9.354378","type":"inject","z":"c6f6ac8d.a8755","name":"Set Orange","topic":"","payload":"{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":153,\"b\":0}}","payloadType":"json","repeat":"","crontab":"","once":true,"onceDelay":0.1,"x":250,"y":100,"wires":[["b3526193.aa81b"]]}]
+[
+    {
+        "id": "d5ebea0.1592918",
+        "type": "subflow",
+        "name": "Keypad",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 620,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "65fc3a9.1c534c4",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "dc262e19.a36cc",
+        "type": "mqtt in",
+        "z": "d5ebea0.1592918",
+        "name": "Keypad from ESP8266",
+        "topic": "keypad",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "55376c6.92c1c94",
+        "x": 140,
+        "y": 80,
+        "wires": [
+            [
+                "65fc3a9.1c534c4",
+                "77ffd647.97e188"
+            ]
+        ]
+    },
+    {
+        "id": "77ffd647.97e188",
+        "type": "debug",
+        "z": "d5ebea0.1592918",
+        "name": "Log Keypad",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 410,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "65fc3a9.1c534c4",
+        "type": "switch",
+        "z": "d5ebea0.1592918",
+        "name": "Check passcode",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "true",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 430,
+        "y": 80,
+        "wires": [
+            [
+                "8f625c88.3b1f4"
+            ],
+            [
+                "ca0cf53b.0acaa8"
+            ]
+        ]
+    },
+    {
+        "id": "ca0cf53b.0acaa8",
+        "type": "function",
+        "z": "d5ebea0.1592918",
+        "name": "Not ACK",
+        "func": "msg.payload=\"{\\\"ack\\\":0}\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 660,
+        "y": 160,
+        "wires": [
+            [
+                "abfa61dd.7ddb8",
+                "45a95b8d.3d1794"
+            ]
+        ]
+    },
+    {
+        "id": "8f625c88.3b1f4",
+        "type": "function",
+        "z": "d5ebea0.1592918",
+        "name": "ACK",
+        "func": "msg.payload=\"{\\\"ack\\\":1}\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 100,
+        "wires": [
+            [
+                "abfa61dd.7ddb8",
+                "45a95b8d.3d1794"
+            ]
+        ]
+    },
+    {
+        "id": "abfa61dd.7ddb8",
+        "type": "mqtt out",
+        "z": "d5ebea0.1592918",
+        "name": "Keypad",
+        "topic": "keypad/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 880,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "45a95b8d.3d1794",
+        "type": "debug",
+        "z": "d5ebea0.1592918",
+        "name": "Log Response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 900,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c6f6ac8d.a8755",
+        "type": "tab",
+        "label": "Magische Schrift",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ce665d75.e11928",
+        "type": "debug",
+        "z": "c6f6ac8d.a8755",
+        "name": "Switch",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 850,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "9d09f73d.f17e08",
+        "type": "mqtt in",
+        "z": "c6f6ac8d.a8755",
+        "name": "Remote IKEA Switch",
+        "topic": "zigbee2mqtt/ikeaswitch",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "55376c6.92c1c94",
+        "x": 230,
+        "y": 720,
+        "wires": [
+            [
+                "b5fbe4ca.9c9aa8"
+            ]
+        ]
+    },
+    {
+        "id": "d94ca9e1.0924",
+        "type": "mqtt in",
+        "z": "c6f6ac8d.a8755",
+        "name": "Remote IKEA Lamp",
+        "topic": "zigbee2mqtt/ikeabulb",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "55376c6.92c1c94",
+        "x": 230,
+        "y": 580,
+        "wires": [
+            [
+                "7c90563a.b249d"
+            ]
+        ]
+    },
+    {
+        "id": "4597c3e1.a0d984",
+        "type": "function",
+        "z": "c6f6ac8d.a8755",
+        "name": "Toggle",
+        "func": "var device = \"ikeabulb\";\nvar currentState = device + \"_state\";\nvar current = flow.get(currentState);\n\n//if(current === \"ON\"){\n    state = \"OFF\";\n    msg.topic = \"zigbee2mqtt/\" + device + \"/set\";\n    msg.payload = {\n        \"state\": state\n    };\n    return msg;\n//}\n\n//if(current === \"OFF\" || undefined){\n    state = \"ON\";\n    msg.topic = \"zigbee2mqtt/\" + device + \"/set\";\n    msg.payload = {\n        \"state\": state\n    };\n    return msg;\n//}\n//msg.payload = \"test\"\n//return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 700,
+        "wires": [
+            [
+                "ce665d75.e11928"
+            ]
+        ]
+    },
+    {
+        "id": "b5fbe4ca.9c9aa8",
+        "type": "switch",
+        "z": "c6f6ac8d.a8755",
+        "name": "Actions",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "toggle",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 680,
+        "wires": [
+            [
+                "4597c3e1.a0d984"
+            ]
+        ]
+    },
+    {
+        "id": "7c90563a.b249d",
+        "type": "debug",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lamp",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 570,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "2dc61b49.90db64",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 710,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "1522857e.e12f1b",
+        "type": "subflow:d5ebea0.1592918",
+        "z": "c6f6ac8d.a8755",
+        "name": "",
+        "env": [],
+        "x": 70,
+        "y": 220,
+        "wires": [
+            [
+                "ca74d760.24e548"
+            ]
+        ]
+    },
+    {
+        "id": "ca74d760.24e548",
+        "type": "change",
+        "z": "c6f6ac8d.a8755",
+        "name": "Change Color",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":0,\"g\":0,\"b\":255}}",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "2dc61b49.90db64"
+            ]
+        ]
+    },
+    {
+        "id": "4c00ac4f.afaa24",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 1410,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "5f075e26.1471d8",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Orange",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":153,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1210,
+        "y": 440,
+        "wires": [
+            [
+                "4c00ac4f.afaa24"
+            ]
+        ]
+    },
+    {
+        "id": "ed185e36.0fa1",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 1410,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "21935ca1.dad27c",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Rot",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":0,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1200,
+        "y": 380,
+        "wires": [
+            [
+                "ed185e36.0fa1"
+            ]
+        ]
+    },
+    {
+        "id": "590c16e4.493c4",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 1410,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a692078d.b84348",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Grün",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":13,\"g\":238,\"b\":88}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1200,
+        "y": 140,
+        "wires": [
+            [
+                "590c16e4.493c4"
+            ]
+        ]
+    },
+    {
+        "id": "bc8213cf.822cf8",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 1410,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d2a19252.f4c878",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Gelb",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":255,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1200,
+        "y": 200,
+        "wires": [
+            [
+                "bc8213cf.822cf8"
+            ]
+        ]
+    },
+    {
+        "id": "fa5dd68c.9ce248",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 1410,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c75c680.6fe7198",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Lila",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":128,\"g\":0,\"b\":128}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1200,
+        "y": 280,
+        "wires": [
+            [
+                "fa5dd68c.9ce248"
+            ]
+        ]
+    },
+    {
+        "id": "dc7a37d5.20a268",
+        "type": "mqtt out",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights",
+        "topic": "zigbee2mqtt/ikeabulb/set",
+        "qos": "",
+        "retain": "",
+        "broker": "55376c6.92c1c94",
+        "x": 1390,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "10fcbb2d.95c6dd",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Blue",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":0,\"g\":0,\"b\":255}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 1200,
+        "y": 540,
+        "wires": [
+            [
+                "dc7a37d5.20a268"
+            ]
+        ]
+    },
+    {
+        "id": "db219de4.f217f",
+        "type": "mqtt in",
+        "z": "c6f6ac8d.a8755",
+        "name": "IKEA Motion Sensor",
+        "topic": "zigbee2mqtt/ikeamotionsensor",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "55376c6.92c1c94",
+        "x": 210,
+        "y": 500,
+        "wires": [
+            [
+                "f64e192d.860b",
+                "b48b85a4.97c06"
+            ]
+        ]
+    },
+    {
+        "id": "f64e192d.860b",
+        "type": "debug",
+        "z": "c6f6ac8d.a8755",
+        "name": "Sensor",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 560,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "b48b85a4.97c06",
+        "type": "function",
+        "z": "c6f6ac8d.a8755",
+        "name": "Set Orange Color",
+        "func": "msg.payload = \"{\\\"state\\\":\\\"ON\\\",\\\"linkquality\\\":118,\\\"brightness\\\":254,\\\"color_mode\\\":2,\\\"color\\\":{\\\"r\\\":255,\\\"g\\\":153,\\\"b\\\":0}}\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 580,
+        "y": 480,
+        "wires": [
+            [
+                "2dc61b49.90db64"
+            ]
+        ]
+    },
+    {
+        "id": "1f9a50b2.f9e8c7",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights ON",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":153,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "2dc61b49.90db64"
+            ]
+        ]
+    },
+    {
+        "id": "f890ef06.4926d8",
+        "type": "inject",
+        "z": "c6f6ac8d.a8755",
+        "name": "Lights OFF",
+        "topic": "",
+        "payload": "{\"state\":\"OFF\",\"linkquality\":118,\"brightness\":254,\"color_mode\":2,\"color\":{\"r\":255,\"g\":153,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "2dc61b49.90db64"
+            ]
+        ]
+    },
+    {
+        "id": "55376c6.92c1c94",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "MQTT",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
