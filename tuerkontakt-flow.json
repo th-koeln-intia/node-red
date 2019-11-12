@@ -1,0 +1,542 @@
+[
+    {
+        "id": "40ffd852.acc6d8",
+        "type": "tab",
+        "label": "Intra Bonn",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3d012b71.049be4",
+        "type": "mqtt in",
+        "z": "40ffd852.acc6d8",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 105,
+        "y": 154,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d5dc8138.9a7",
+        "type": "mqtt out",
+        "z": "40ffd852.acc6d8",
+        "name": "Lampe",
+        "topic": "zigbee2mqtt/osram_light/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 750,
+        "y": 147,
+        "wires": []
+    },
+    {
+        "id": "7f89dc29.d6d884",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt: Grün",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"ON\\\",\\\"color\\\":{\\\"r\\\":13,\\\"g\\\":238,\\\"b\\\":88}}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 541,
+        "y": 126,
+        "wires": [
+            [
+                "d5dc8138.9a7"
+            ]
+        ]
+    },
+    {
+        "id": "be761ab.d629de8",
+        "type": "switch",
+        "z": "40ffd852.acc6d8",
+        "name": "Status auslesen",
+        "property": "payload.contact",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 323,
+        "y": 152,
+        "wires": [
+            [
+                "7f89dc29.d6d884"
+            ],
+            [
+                "f75881a5.f5c9e"
+            ]
+        ]
+    },
+    {
+        "id": "f75881a5.f5c9e",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kein Kontakt: Rot",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"ON\\\",\\\"color\\\":{\\\"r\\\":255,\\\"g\\\":0,\\\"b\\\":0}}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 547,
+        "y": 176,
+        "wires": [
+            [
+                "d5dc8138.9a7"
+            ]
+        ]
+    },
+    {
+        "id": "5bb5b324.90ffcc",
+        "type": "mqtt in",
+        "z": "40ffd852.acc6d8",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 118,
+        "y": 339,
+        "wires": [
+            [
+                "29e1e771.ce9c98"
+            ]
+        ]
+    },
+    {
+        "id": "e7b36b73.2aee18",
+        "type": "mqtt out",
+        "z": "40ffd852.acc6d8",
+        "name": "Lampe",
+        "topic": "zigbee2mqtt/osram_light/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 763,
+        "y": 332,
+        "wires": []
+    },
+    {
+        "id": "762efb94.daccf4",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kein Kontakt: Grün",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"ON\\\",\\\"color\\\":{\\\"r\\\":13,\\\"g\\\":238,\\\"b\\\":88}}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 563,
+        "y": 358,
+        "wires": [
+            [
+                "e7b36b73.2aee18"
+            ]
+        ]
+    },
+    {
+        "id": "29e1e771.ce9c98",
+        "type": "switch",
+        "z": "40ffd852.acc6d8",
+        "name": "Status auslesen",
+        "property": "payload.contact",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 336,
+        "y": 337,
+        "wires": [
+            [
+                "d8254f0f.fcd2b"
+            ],
+            [
+                "762efb94.daccf4"
+            ]
+        ]
+    },
+    {
+        "id": "d8254f0f.fcd2b",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt: Rot",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"ON\\\",\\\"color\\\":{\\\"r\\\":255,\\\"g\\\":0,\\\"b\\\":0}}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 545,
+        "y": 304,
+        "wires": [
+            [
+                "e7b36b73.2aee18"
+            ]
+        ]
+    },
+    {
+        "id": "9c0f50db.faf19",
+        "type": "comment",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt = Rot",
+        "info": "",
+        "x": 226,
+        "y": 274,
+        "wires": []
+    },
+    {
+        "id": "42485354.d4a92c",
+        "type": "comment",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt = Grün",
+        "info": "",
+        "x": 231,
+        "y": 98,
+        "wires": []
+    },
+    {
+        "id": "e2f89267.6d5b5",
+        "type": "inject",
+        "z": "40ffd852.acc6d8",
+        "name": "Set Grün",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"color\":{\"r\":13,\"g\":238,\"b\":88}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1054,
+        "y": 118,
+        "wires": [
+            [
+                "754519a4.4e2f18"
+            ]
+        ]
+    },
+    {
+        "id": "9275ebdb.8d4338",
+        "type": "inject",
+        "z": "40ffd852.acc6d8",
+        "name": "Set Rot",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"color\":{\"r\":255,\"g\":0,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1055,
+        "y": 173,
+        "wires": [
+            [
+                "754519a4.4e2f18"
+            ]
+        ]
+    },
+    {
+        "id": "754519a4.4e2f18",
+        "type": "mqtt out",
+        "z": "40ffd852.acc6d8",
+        "name": "Lampe",
+        "topic": "zigbee2mqtt/osram_light/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1297,
+        "y": 119,
+        "wires": []
+    },
+    {
+        "id": "8d4160fe.e7612",
+        "type": "inject",
+        "z": "40ffd852.acc6d8",
+        "name": "Set Orange",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"color\":{\"r\":255,\"g\":153,\"b\":0}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1062,
+        "y": 273,
+        "wires": [
+            [
+                "754519a4.4e2f18"
+            ]
+        ]
+    },
+    {
+        "id": "1fcadaba.f87e55",
+        "type": "inject",
+        "z": "40ffd852.acc6d8",
+        "name": "Set Lila",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"color\":{\"r\":128,\"g\":0,\"b\":128}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1053,
+        "y": 226,
+        "wires": [
+            [
+                "754519a4.4e2f18"
+            ]
+        ]
+    },
+    {
+        "id": "19067d93.7dda82",
+        "type": "inject",
+        "z": "40ffd852.acc6d8",
+        "name": "Set Blue",
+        "topic": "",
+        "payload": "{\"state\":\"ON\",\"color\":{\"r\":0,\"g\":0,\"b\":255}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 1053,
+        "y": 323,
+        "wires": [
+            [
+                "754519a4.4e2f18"
+            ]
+        ]
+    },
+    {
+        "id": "d6c0997e.400e88",
+        "type": "mqtt in",
+        "z": "40ffd852.acc6d8",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 116,
+        "y": 572,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6cf9b928.fda588",
+        "type": "mqtt out",
+        "z": "40ffd852.acc6d8",
+        "name": "Lampe",
+        "topic": "zigbee2mqtt/osram_light/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 796,
+        "y": 566,
+        "wires": []
+    },
+    {
+        "id": "a78d363b.c10998",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt: Einschalten",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"ON\\\",\\\"color\\\":{\\\"r\\\":255,\\\"g\\\":0,\\\"b\\\":0}}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 572,
+        "y": 544,
+        "wires": [
+            [
+                "6cf9b928.fda588"
+            ]
+        ]
+    },
+    {
+        "id": "9cdb68af.c228e8",
+        "type": "switch",
+        "z": "40ffd852.acc6d8",
+        "name": "Status auslesen",
+        "property": "payload.contact",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 334,
+        "y": 570,
+        "wires": [
+            [
+                "a78d363b.c10998"
+            ],
+            [
+                "9b04e141.0a3fd"
+            ]
+        ]
+    },
+    {
+        "id": "9b04e141.0a3fd",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kein Kontakt: Ausschalten",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"OFF\\\"}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 578,
+        "y": 594,
+        "wires": [
+            [
+                "6cf9b928.fda588"
+            ]
+        ]
+    },
+    {
+        "id": "e4c0ffc6.5a2ac",
+        "type": "comment",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt = Lampe an",
+        "info": "",
+        "x": 224,
+        "y": 512,
+        "wires": []
+    },
+    {
+        "id": "9eccdae0.faa468",
+        "type": "mqtt in",
+        "z": "40ffd852.acc6d8",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 112,
+        "y": 791,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cec8ee5b.ea467",
+        "type": "mqtt out",
+        "z": "40ffd852.acc6d8",
+        "name": "Lampe",
+        "topic": "zigbee2mqtt/osram_light/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 834,
+        "y": 788,
+        "wires": []
+    },
+    {
+        "id": "29795cf3.d10794",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kein Kontakt: Einschalten",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"ON\\\",\\\"color\\\":{\\\"r\\\":255,\\\"g\\\":0,\\\"b\\\":0}}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 583,
+        "y": 807,
+        "wires": [
+            [
+                "cec8ee5b.ea467"
+            ]
+        ]
+    },
+    {
+        "id": "f21b3d2.11c39c",
+        "type": "switch",
+        "z": "40ffd852.acc6d8",
+        "name": "Status auslesen",
+        "property": "payload.contact",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 789,
+        "wires": [
+            [
+                "f9a0bbbf.f6eea8"
+            ],
+            [
+                "29795cf3.d10794"
+            ]
+        ]
+    },
+    {
+        "id": "f9a0bbbf.f6eea8",
+        "type": "function",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt: Ausschalten",
+        "func": "msg.payload=\"{\\\"state\\\":\\\"OFF\\\"}\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 578,
+        "y": 765,
+        "wires": [
+            [
+                "cec8ee5b.ea467"
+            ]
+        ]
+    },
+    {
+        "id": "49e7957f.83e53c",
+        "type": "comment",
+        "z": "40ffd852.acc6d8",
+        "name": "Kontakt = Lampe aus",
+        "info": "",
+        "x": 238,
+        "y": 729,
+        "wires": []
+    },
+    {
+        "id": "9897dc40.deeac",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "MQTT",
+        "broker": "intia",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
