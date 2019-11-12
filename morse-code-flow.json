@@ -1,32 +1,32 @@
 [
     {
-        "id": "d72de2df.48ba",
+        "id": "b0780753.1f57d8",
         "type": "tab",
         "label": "Morse",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "d956f29c.0d4c3",
+        "id": "7564d08.326b83",
         "type": "mqtt in",
-        "z": "d72de2df.48ba",
+        "z": "b0780753.1f57d8",
         "name": "",
         "topic": "morse",
         "qos": "2",
         "datatype": "json",
-        "broker": "6ac37b43.9b38f4",
+        "broker": "9897dc40.deeac",
         "x": 110,
         "y": 100,
         "wires": [
             [
-                "f12921d6.70bcd"
+                "fb88e540.8da6a8"
             ]
         ]
     },
     {
-        "id": "f12921d6.70bcd",
+        "id": "fb88e540.8da6a8",
         "type": "switch",
-        "z": "d72de2df.48ba",
+        "z": "b0780753.1f57d8",
         "name": "Drücken oder Loslassen",
         "property": "payload.action",
         "propertyType": "msg",
@@ -49,19 +49,160 @@
         "y": 100,
         "wires": [
             [
-                "d688fdb7.c8f27",
-                "c24018e4.3eb368"
+                "14148438.88a8dc",
+                "e72eec0e.e9112"
             ],
             [
-                "c24018e4.3eb368",
-                "22fe88b1.38a1c8"
+                "e72eec0e.e9112",
+                "4f37cf9b.6a42a"
             ]
         ]
     },
     {
-        "id": "9530fe9a.469a6",
+        "id": "14148438.88a8dc",
+        "type": "change",
+        "z": "b0780753.1f57d8",
+        "name": "Zeit zurücksetzen",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 40,
+        "wires": [
+            [
+                "f4523811.2589c8"
+            ]
+        ]
+    },
+    {
+        "id": "e72eec0e.e9112",
+        "type": "delay",
+        "z": "b0780753.1f57d8",
+        "name": "Nachrichten verzögern für reset",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 610,
+        "y": 100,
+        "wires": [
+            [
+                "f4523811.2589c8",
+                "dace2416.22abe8"
+            ]
+        ]
+    },
+    {
+        "id": "10c015c8.e3489a",
+        "type": "function",
+        "z": "b0780753.1f57d8",
+        "name": "Morse code prüfen",
+        "func": "var solution_code = global.get('solution_code');\nvar current_code = global.get('current_code');\n\nif(current_code === \"\"){\n    msg.payload.paused=0;\n}\n//Get current morse code\nif(msg.payload.pressed > 1000){\n    current_code+=\"long \";\n}else if(msg.payload.pressed > 10 ){\n    current_code+=\"short \";\n}\n/*\n}else if(msg.payload.paused > 50000 ){\n    current_code+=\"word \";\n}else if(msg.payload.paused > 2000 ){\n    current_code+=\"next \";\n}\n*/\nnode.warn(current_code);\nif(current_code === solution_code){\n    node.warn(\"solved\");\n    msg.payload = \"solved\";\n    global.set('current_code',\"\");\n}else if(solution_code.includes(current_code)){\n    msg.payload = \"in progress\";\n    global.set('current_code',current_code);\n}else{\n    node.warn(\"failed\");\n    msg.payload = \"failed\"; \n    global.set('current_code',\"\");\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1150,
+        "y": 80,
+        "wires": [
+            [
+                "d637aa43.dc1948"
+            ]
+        ]
+    },
+    {
+        "id": "d637aa43.dc1948",
+        "type": "debug",
+        "z": "b0780753.1f57d8",
+        "name": "Ausgabe",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1260,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "52aab729.682d08",
+        "type": "inject",
+        "z": "b0780753.1f57d8",
+        "name": "Variablen zurücksetzen",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 190,
+        "y": 239,
+        "wires": [
+            [
+                "829a460c.8b9828"
+            ]
+        ]
+    },
+    {
+        "id": "829a460c.8b9828",
+        "type": "function",
+        "z": "b0780753.1f57d8",
+        "name": "Globale Variablen setzen",
+        "func": "/*\nshort = <1 Sec. pressed\nlong =  >1 Sec. pressed\nnext =  >2 Sec. pause (next letter)\nword =  >5 Sec. pause (next word)\n*/\nglobal.set('solution_code',\n\"short short short short \" +   //H\n\"short long \" +                //A\n\"short long short short \" + //L\n\"short long short short \" + //L\n\"long long long\")   //O\n\nglobal.set('current_code',\"\")\nglobal.set('position',0);",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 470,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4f37cf9b.6a42a",
+        "type": "change",
+        "z": "b0780753.1f57d8",
+        "name": "Zeit zurücksetzen",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 160,
+        "wires": [
+            [
+                "dace2416.22abe8"
+            ]
+        ]
+    },
+    {
+        "id": "f4523811.2589c8",
         "type": "interval-length",
-        "z": "d72de2df.48ba",
+        "z": "b0780753.1f57d8",
         "format": "mills",
         "bytopic": true,
         "minimum": "",
@@ -83,129 +224,15 @@
         "y": 40,
         "wires": [
             [
-                "6a6517d2.b8d858"
+                "10c015c8.e3489a"
             ],
             []
         ]
     },
     {
-        "id": "d688fdb7.c8f27",
-        "type": "change",
-        "z": "d72de2df.48ba",
-        "name": "Zeit zurücksetzen",
-        "rules": [
-            {
-                "t": "set",
-                "p": "reset",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 570,
-        "y": 40,
-        "wires": [
-            [
-                "9530fe9a.469a6"
-            ]
-        ]
-    },
-    {
-        "id": "c24018e4.3eb368",
-        "type": "delay",
-        "z": "d72de2df.48ba",
-        "name": "Nachrichten verzögern für reset",
-        "pauseType": "delay",
-        "timeout": "10",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 610,
-        "y": 100,
-        "wires": [
-            [
-                "9530fe9a.469a6",
-                "3ca65496.6f395c"
-            ]
-        ]
-    },
-    {
-        "id": "6a6517d2.b8d858",
-        "type": "function",
-        "z": "d72de2df.48ba",
-        "name": "Morse code prüfen",
-        "func": "var solution_code = global.get('solution_code');\nvar current_code = global.get('current_code');\n\nif(current_code === \"\"){\n    msg.payload.paused=0;\n}\n//Get current morse code\nif(msg.payload.pressed > 1000){\n    current_code+=\"long \";\n}else if(msg.payload.pressed > 1 ){\n    current_code+=\"short \";\n}else if(msg.payload.paused > 50000 ){\n    current_code+=\"word \";\n}else if(msg.payload.paused > 2000 ){\n    current_code+=\"next \";\n}\nnode.warn(current_code);\nif(current_code === solution_code){\n    node.warn(\"solved\");\n    msg.payload = \"solved\";\n    global.set('current_code',\"\");\n}else if(solution_code.includes(current_code)){\n    msg.payload = \"in progress\";\n    global.set('current_code',current_code);\n}else{\n    node.warn(\"failed\");\n    msg.payload = \"failed\"; \n    global.set('current_code',\"\");\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1150,
-        "y": 80,
-        "wires": [
-            [
-                "df671344.8bef3"
-            ]
-        ]
-    },
-    {
-        "id": "df671344.8bef3",
-        "type": "debug",
-        "z": "d72de2df.48ba",
-        "name": "Ausgabe",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "x": 1260,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "436a50bd.642e5",
-        "type": "inject",
-        "z": "d72de2df.48ba",
-        "name": "Variablen zurücksetzen",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "x": 190,
-        "y": 240,
-        "wires": [
-            [
-                "9aa7e5a4.645078"
-            ]
-        ]
-    },
-    {
-        "id": "9aa7e5a4.645078",
-        "type": "function",
-        "z": "d72de2df.48ba",
-        "name": "Globale Variablen setzen",
-        "func": "/*\nshort = <1 Sec. pressed\nlong =  >1 Sec. pressed\nnext =  >2 Sec. pause (next letter)\nword =  >5 Sec. pause (next word)\n*/\nglobal.set('solution_code',\n\"short short short short next \" +   //H\n\"short long next \" +                //A\n\"short long short short next \" + //L\n\"short long short short next \" + //L\n\"long long long \")   //O\n\nglobal.set('current_code',\"\")\nglobal.set('position',0);",
-        "outputs": 0,
-        "noerr": 0,
-        "x": 470,
-        "y": 240,
-        "wires": []
-    },
-    {
-        "id": "3ca65496.6f395c",
+        "id": "dace2416.22abe8",
         "type": "interval-length",
-        "z": "d72de2df.48ba",
+        "z": "b0780753.1f57d8",
         "format": "mills",
         "bytopic": false,
         "minimum": "",
@@ -227,48 +254,21 @@
         "y": 160,
         "wires": [
             [
-                "6a6517d2.b8d858"
+                "10c015c8.e3489a"
             ],
             []
         ]
     },
     {
-        "id": "22fe88b1.38a1c8",
-        "type": "change",
-        "z": "d72de2df.48ba",
-        "name": "Zeit zurücksetzen",
-        "rules": [
-            {
-                "t": "set",
-                "p": "reset",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 570,
-        "y": 160,
-        "wires": [
-            [
-                "3ca65496.6f395c"
-            ]
-        ]
-    },
-    {
-        "id": "6ac37b43.9b38f4",
+        "id": "9897dc40.deeac",
         "type": "mqtt-broker",
         "z": "",
-        "name": "mqtt",
-        "broker": "mqtt",
+        "name": "MQTT",
+        "broker": "intia",
         "port": "1883",
         "clientid": "",
         "usetls": false,
-        "compatmode": false,
+        "compatmode": true,
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
