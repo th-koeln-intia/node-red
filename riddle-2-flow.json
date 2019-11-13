@@ -1,0 +1,785 @@
+[
+    {
+        "id": "fae63056.66b7e",
+        "type": "subflow",
+        "name": "Simon Says",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 200,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "f265408.2c145c"
+                    },
+                    {
+                        "id": "66e93802.783e78"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "eb34d5c4.f21138",
+        "type": "inject",
+        "z": "fae63056.66b7e",
+        "name": "Example Green",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"green\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 120,
+        "wires": [
+            [
+                "66e93802.783e78"
+            ]
+        ]
+    },
+    {
+        "id": "217921f5.a2adee",
+        "type": "inject",
+        "z": "fae63056.66b7e",
+        "name": "Example Red",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"red\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "66e93802.783e78"
+            ]
+        ]
+    },
+    {
+        "id": "c8c94205.40dcf",
+        "type": "inject",
+        "z": "fae63056.66b7e",
+        "name": "Example Blue",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"blue\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 240,
+        "wires": [
+            [
+                "66e93802.783e78"
+            ]
+        ]
+    },
+    {
+        "id": "72923936.d1ca18",
+        "type": "inject",
+        "z": "fae63056.66b7e",
+        "name": "Example Yellow",
+        "topic": "simon_says",
+        "payload": "{\"id\":\"yellow\",\"action\":\"pressed\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 300,
+        "wires": [
+            [
+                "66e93802.783e78"
+            ]
+        ]
+    },
+    {
+        "id": "fc57dc8c.1d9d3",
+        "type": "inject",
+        "z": "fae63056.66b7e",
+        "name": "Reset Variables",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 400,
+        "wires": [
+            [
+                "9704f433.eba8a8"
+            ]
+        ]
+    },
+    {
+        "id": "9704f433.eba8a8",
+        "type": "function",
+        "z": "fae63056.66b7e",
+        "name": "Set Variables",
+        "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_amount',6);\n\n// Generate new rounds\nvar round_amount = global.get('round_amount');\nvar round_value=\"\";\nfor (var i=0, t=round_amount; i<t; i++) {\n    rnd_number = Math.floor((Math.random() * 4) + 1);\n    if(i>0){\n        round_value +=\" \";\n    }\n    switch(rnd_number){\n        case 1: \n            round_value+=\"green\";\n            break;\n        case 2:\n            round_value+=\"red\";\n            break;\n        case 3:\n            round_value+=\"blue\";\n            break;\n        case 4:\n            round_value+=\"yellow\";\n            break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    \n/* Hardcoded round\nglobal.set('round_1',\"green\")\nglobal.set('round_2',\"green blue\")\nglobal.set('round_3',\"green blue red\")\nglobal.set('round_4',\"green blue red red\")\nglobal.set('round_5',\"green blue red red yellow\")\nglobal.set('round_6',\"solved\")\n*/\n\nmsg.payload = global.get(\"round_1\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "6a52f719.d53c08",
+                "80247be2.848448"
+            ]
+        ]
+    },
+    {
+        "id": "e622e31a.fdd97",
+        "type": "debug",
+        "z": "fae63056.66b7e",
+        "name": "Print next round",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 660,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "80247be2.848448",
+        "type": "mqtt out",
+        "z": "fae63056.66b7e",
+        "name": "",
+        "topic": "simon/set",
+        "qos": "",
+        "retain": "",
+        "broker": "6ac37b43.9b38f4",
+        "x": 640,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "66e93802.783e78",
+        "type": "function",
+        "z": "fae63056.66b7e",
+        "name": "validate",
+        "func": "// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_raw = global.get('round_'+round);\nvar round_values = round_raw.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"green\":\n        button_color = \"green\";\n        break;\n    case \"red\":\n        button_color = \"red\";\n        break;\n    case \"blue\":\n        button_color = \"blue\";\n        break;\n    case \"yellow\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n     node.warn(\"match\");\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'solved'){\n    node.warn(\"else\");\n    node.warn(round_values[0]);\n    msg.payload = round_json;\n    return msg;\n}else{\n      node.warn(\"Default\");\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    \n    // Generate new rounds\n    var round_amount = global.get('round_amount');\n    var round_value=\"\";\n    for (var i=0, t=round_amount; i<t; i++) {\n        rnd_number = Math.floor((Math.random() * 4) + 1);\n        if(i>0){\n            round_value +=\" \";\n        }\n        switch(rnd_number){\n            case 1: \n                round_value+=\"green\";\n                break;\n            case 2:\n                round_value+=\"red\";\n                break;\n            case 3:\n                round_value+=\"blue\";\n                break;\n            case 4:\n                round_value+=\"yellow\";\n                break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    msg.payload = global.get('round_1');\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "e622e31a.fdd97",
+                "80247be2.848448"
+            ]
+        ]
+    },
+    {
+        "id": "6a52f719.d53c08",
+        "type": "debug",
+        "z": "fae63056.66b7e",
+        "name": "Print first round",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 360,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "f265408.2c145c",
+        "type": "debug",
+        "z": "fae63056.66b7e",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 520,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a8ccd0f2.5066f",
+        "type": "subflow",
+        "name": "Cables",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 140,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "8af17162.3e649"
+                    },
+                    {
+                        "id": "49d1213d.c07ce"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "49d1213d.c07ce",
+        "type": "function",
+        "z": "a8ccd0f2.5066f",
+        "name": "Check cables",
+        "func": "// Configure cables\n// 0 = Connected\n// 1 = Not Connected\nvar yellow = 1;\nvar blue = 0;\nvar white = 1;\nvar green = 0;\nvar black = 0;\nvar red = 1;\nvar orange = 0;\n\n// Check value\nvar value = parseInt(msg.payload.split(\":\")[1]);\nvar factor = 1;\nvar sum=orange*1+red*10+black*100+green*1000+white*10000+blue*100000+yellow*1000000;\n\nif(sum === value){\n    node.warn(\"Solved\");\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "c5cbebb6.926408"
+            ]
+        ]
+    },
+    {
+        "id": "c5cbebb6.926408",
+        "type": "function",
+        "z": "a8ccd0f2.5066f",
+        "name": "ACK",
+        "func": "msg.payload=\"{\\\"ack\\\":1}\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 180,
+        "wires": [
+            [
+                "ffde2ce7.89627"
+            ]
+        ]
+    },
+    {
+        "id": "ffde2ce7.89627",
+        "type": "mqtt out",
+        "z": "a8ccd0f2.5066f",
+        "name": "",
+        "topic": "cable-riddle/set",
+        "qos": "",
+        "retain": "",
+        "broker": "6ac37b43.9b38f4",
+        "x": 760,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8af17162.3e649",
+        "type": "debug",
+        "z": "a8ccd0f2.5066f",
+        "name": "Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 370,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "5d6b9c22.a66f34",
+        "type": "subflow",
+        "name": "Morsen",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 120,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "dae893b4.6c9"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "dae893b4.6c9",
+        "type": "switch",
+        "z": "5d6b9c22.a66f34",
+        "name": "Drücken oder Loslassen",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "pressed",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "release",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 120,
+        "wires": [
+            [
+                "b1b8e9c9.294a28",
+                "f50f8770.17fba8"
+            ],
+            [
+                "f50f8770.17fba8",
+                "be3df6b4.6ce7f8"
+            ]
+        ]
+    },
+    {
+        "id": "b1b8e9c9.294a28",
+        "type": "change",
+        "z": "5d6b9c22.a66f34",
+        "name": "Zeit zurücksetzen",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 60,
+        "wires": [
+            [
+                "8bf60940.11f4e8"
+            ]
+        ]
+    },
+    {
+        "id": "f50f8770.17fba8",
+        "type": "delay",
+        "z": "5d6b9c22.a66f34",
+        "name": "Nachrichten verzögern für reset",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 610,
+        "y": 120,
+        "wires": [
+            [
+                "8bf60940.11f4e8",
+                "562e90c8.74bc8"
+            ]
+        ]
+    },
+    {
+        "id": "90c00fa9.5dc6d",
+        "type": "function",
+        "z": "5d6b9c22.a66f34",
+        "name": "Morse code prüfen",
+        "func": "var solution_code = global.get('solution_code');\nvar current_code = global.get('current_code');\n\nif(current_code === \"\"){\n    msg.payload.paused=0;\n}\n//Get current morse code\nif(msg.payload.pressed > 1000){\n    current_code+=\"long \";\n}else if(msg.payload.pressed > 10 ){\n    current_code+=\"short \";\n}\n/*\n}else if(msg.payload.paused > 50000 ){\n    current_code+=\"word \";\n}else if(msg.payload.paused > 2000 ){\n    current_code+=\"next \";\n}\n*/\nnode.warn(current_code);\nif(current_code === solution_code){\n    node.warn(\"solved\");\n    msg.payload = \"solved\";\n    global.set('current_code',\"\");\n}else if(current_code === solution_code.substring(0,current_code.length)){\n    msg.payload = \"in progress\";\n    global.set('current_code',current_code);\n}else{\n    node.warn(\"failed\");\n    msg.payload = \"failed\"; \n    global.set('current_code',\"\");\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1150,
+        "y": 100,
+        "wires": [
+            [
+                "86fffbc6.d983b8",
+                "c6ef2d1c.77891"
+            ]
+        ]
+    },
+    {
+        "id": "86fffbc6.d983b8",
+        "type": "debug",
+        "z": "5d6b9c22.a66f34",
+        "name": "Ausgabe",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1420,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "4e2d16b0.d7a6a8",
+        "type": "inject",
+        "z": "5d6b9c22.a66f34",
+        "name": "Variablen zurücksetzen",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 190,
+        "y": 259,
+        "wires": [
+            [
+                "aa0500c6.050e9"
+            ]
+        ]
+    },
+    {
+        "id": "aa0500c6.050e9",
+        "type": "function",
+        "z": "5d6b9c22.a66f34",
+        "name": "Globale Variablen setzen",
+        "func": "/*\nshort = <1 Sec. pressed\nlong =  >1 Sec. pressed\nnext =  >2 Sec. pause (next letter)\nword =  >5 Sec. pause (next word)\n*/\nglobal.set('solution_code',\n\"short short short short \" +   //H\n\"short long \" +                //A\n\"short long short short \" + //L\n\"short long short short \" + //L\n\"long long long\")   //O\n\nglobal.set('current_code',\"\")\nglobal.set('position',0);",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 470,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "be3df6b4.6ce7f8",
+        "type": "change",
+        "z": "5d6b9c22.a66f34",
+        "name": "Zeit zurücksetzen",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 180,
+        "wires": [
+            [
+                "562e90c8.74bc8"
+            ]
+        ]
+    },
+    {
+        "id": "8bf60940.11f4e8",
+        "type": "interval-length",
+        "z": "5d6b9c22.a66f34",
+        "format": "mills",
+        "bytopic": true,
+        "minimum": "",
+        "maximum": "",
+        "window": "",
+        "timeout": false,
+        "msgTimeout": "",
+        "minimumunit": "msecs",
+        "maximumunit": "msecs",
+        "windowunit": "msecs",
+        "msgTimeoutUnit": "msecs",
+        "reset": true,
+        "startup": false,
+        "msgField": "payload.pressed",
+        "timestampField": "timestamp",
+        "repeatTimeout": false,
+        "name": "Drückdauer zählen",
+        "x": 890,
+        "y": 60,
+        "wires": [
+            [
+                "90c00fa9.5dc6d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "562e90c8.74bc8",
+        "type": "interval-length",
+        "z": "5d6b9c22.a66f34",
+        "format": "mills",
+        "bytopic": false,
+        "minimum": "",
+        "maximum": "",
+        "window": "",
+        "timeout": false,
+        "msgTimeout": "",
+        "minimumunit": "msecs",
+        "maximumunit": "msecs",
+        "windowunit": "msecs",
+        "msgTimeoutUnit": "msecs",
+        "reset": true,
+        "startup": false,
+        "msgField": "payload.paused",
+        "timestampField": "timestamp",
+        "repeatTimeout": false,
+        "name": "Loslassdauer zählen",
+        "x": 900,
+        "y": 180,
+        "wires": [
+            [
+                "90c00fa9.5dc6d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "1edea586.edc65a",
+        "type": "mqtt out",
+        "z": "5d6b9c22.a66f34",
+        "name": "",
+        "topic": "morse/set",
+        "qos": "",
+        "retain": "",
+        "broker": "6ac37b43.9b38f4",
+        "x": 1500,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "c6ef2d1c.77891",
+        "type": "switch",
+        "z": "5d6b9c22.a66f34",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "failed",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1350,
+        "y": 220,
+        "wires": [
+            [
+                "1edea586.edc65a"
+            ]
+        ]
+    },
+    {
+        "id": "5ecd5bce.f73474",
+        "type": "tab",
+        "label": "Riddle 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "201704fa.41d4bc",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 2: 3D-Rätsel lösen -> Schlüssel",
+        "info": "",
+        "x": 430,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c8f1f128.c1dd6",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 3: Schrank mit Schlüssel öffnen -> Verschlüsselter Text erhalten",
+        "info": "",
+        "x": 530,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "115f9fe3.cdfff",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 1: 3D-Rätsel finden, Caesar Schlüssel finden, Morse-Button finden, Simon Says finden, 2x Verschlossene Box finden, Alarmanlagen entschlüsselung erhalten",
+        "info": "",
+        "x": 820,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "754d875f.229308",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 4: Text mit Caesar Schlüssel lösen -> Morse-Anleitung und Code erhalten",
+        "info": "",
+        "x": 560,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ae6a4d2e.23423",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 5: Morsen -> eine Kiste öffnet sich und man erhält das Kabelspiel",
+        "info": "",
+        "x": 530,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "6dd0036c.55ffac",
+        "type": "mqtt in",
+        "z": "5ecd5bce.f73474",
+        "name": "",
+        "topic": "morse",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "6ac37b43.9b38f4",
+        "x": 490,
+        "y": 220,
+        "wires": [
+            [
+                "2ade0572.97491a"
+            ]
+        ]
+    },
+    {
+        "id": "2ade0572.97491a",
+        "type": "subflow:5d6b9c22.a66f34",
+        "z": "5ecd5bce.f73474",
+        "name": "",
+        "x": 650,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8d1b5bc.f84f8a8",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 6: Kabelspiel mit Alarmanleitung lösen -> Simon Says leuchtet auf",
+        "info": "",
+        "x": 520,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "24f0f8ef.d5f338",
+        "type": "mqtt in",
+        "z": "5ecd5bce.f73474",
+        "name": "",
+        "topic": "cable-riddle",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6ac37b43.9b38f4",
+        "x": 510,
+        "y": 340,
+        "wires": [
+            [
+                "dbd1dd2a.8d0c3"
+            ]
+        ]
+    },
+    {
+        "id": "dbd1dd2a.8d0c3",
+        "type": "subflow:a8ccd0f2.5066f",
+        "z": "5ecd5bce.f73474",
+        "name": "",
+        "x": 690,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b195e94b.7f9e78",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 7: Simon Says lösen -> Letzte Kiste öffnet sich",
+        "info": "",
+        "x": 460,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "9cc205a7.00e798",
+        "type": "comment",
+        "z": "5ecd5bce.f73474",
+        "name": "Schritt 8: RFID-Karte liegt in Kiste mit Hinweis das es geschafft ist",
+        "info": "",
+        "x": 490,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "68cd681c.0b2608",
+        "type": "mqtt in",
+        "z": "5ecd5bce.f73474",
+        "name": "",
+        "topic": "simon",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "6ac37b43.9b38f4",
+        "x": 490,
+        "y": 460,
+        "wires": [
+            [
+                "5117100.b62d5f"
+            ]
+        ]
+    },
+    {
+        "id": "5117100.b62d5f",
+        "type": "subflow:fae63056.66b7e",
+        "z": "5ecd5bce.f73474",
+        "name": "",
+        "x": 680,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "6ac37b43.9b38f4",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "mqtt",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
