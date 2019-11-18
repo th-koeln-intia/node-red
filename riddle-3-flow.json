@@ -1,0 +1,231 @@
+[
+    {
+        "id": "3385a279.7c006e",
+        "type": "tab",
+        "label": "Riddle 3",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9d410f13.49d4d",
+        "type": "mqtt out",
+        "z": "3385a279.7c006e",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "337e7e79.a05472",
+        "x": 1110,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "8d1ab0bd.3b716",
+        "type": "ui_button",
+        "z": "3385a279.7c006e",
+        "name": "",
+        "group": "c3e0f2df.dafe2",
+        "order": 1,
+        "width": 8,
+        "height": 8,
+        "passthru": false,
+        "label": "Spiegel aktivieren",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "touch_app",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "x": 850,
+        "y": 100,
+        "wires": [
+            [
+                "9d410f13.49d4d"
+            ]
+        ]
+    },
+    {
+        "id": "4933bbe8.99d634",
+        "type": "ui_text_input",
+        "z": "3385a279.7c006e",
+        "name": "",
+        "label": "Lösung",
+        "tooltip": "",
+        "group": "92b1cb3e.30b0d8",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "",
+        "x": 60,
+        "y": 100,
+        "wires": [
+            [
+                "9e3fa282.3f72a"
+            ]
+        ]
+    },
+    {
+        "id": "9d812d8f.f0b5d",
+        "type": "ui_text",
+        "z": "3385a279.7c006e",
+        "group": "92b1cb3e.30b0d8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Was ist das einfache Wort für partizipativ?",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 280,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "9e3fa282.3f72a",
+        "type": "function",
+        "z": "3385a279.7c006e",
+        "name": "Validere Eingabe",
+        "func": "if(msg.payload === \"teilnehmend\"){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "fc9d9d7d.2a70c"
+            ]
+        ]
+    },
+    {
+        "id": "aa4c2c2b.90f6f",
+        "type": "inject",
+        "z": "3385a279.7c006e",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 250,
+        "y": 40,
+        "wires": [
+            [
+                "e8e1101e.5216a"
+            ]
+        ]
+    },
+    {
+        "id": "e8e1101e.5216a",
+        "type": "change",
+        "z": "3385a279.7c006e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 40,
+        "wires": [
+            [
+                "8d1ab0bd.3b716"
+            ]
+        ]
+    },
+    {
+        "id": "fc9d9d7d.2a70c",
+        "type": "change",
+        "z": "3385a279.7c006e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "8d1ab0bd.3b716"
+            ]
+        ]
+    },
+    {
+        "id": "337e7e79.a05472",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "mqtt",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "c3e0f2df.dafe2",
+        "type": "ui_group",
+        "z": "",
+        "name": "Spiegel",
+        "tab": "2b886881.65bca8",
+        "order": 2,
+        "disp": false,
+        "width": 8,
+        "collapse": false
+    },
+    {
+        "id": "92b1cb3e.30b0d8",
+        "type": "ui_group",
+        "z": "",
+        "name": "Frage",
+        "tab": "2b886881.65bca8",
+        "order": 1,
+        "disp": false,
+        "width": 8,
+        "collapse": false
+    },
+    {
+        "id": "2b886881.65bca8",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Mirror",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
