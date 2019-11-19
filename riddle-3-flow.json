@@ -1,30 +1,1658 @@
 [
     {
-        "id": "3385a279.7c006e",
+        "id": "b99157da.743c48",
         "type": "tab",
         "label": "Riddle 3",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "9d410f13.49d4d",
+        "id": "72e49ac8.e13cf4",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Cube",
+        "topic": "zigbee2mqtt/cube",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 96.00000762939453,
+        "y": 2137.9999284744263,
+        "wires": [
+            [
+                "2ae2ffe5.9a0a3"
+            ]
+        ]
+    },
+    {
+        "id": "f14e456c.721d78",
         "type": "mqtt out",
-        "z": "3385a279.7c006e",
-        "name": "",
-        "topic": "",
+        "z": "b99157da.743c48",
+        "name": "Lampe",
+        "topic": "zigbee2mqtt/osram_light/set",
         "qos": "",
         "retain": "",
-        "broker": "337e7e79.a05472",
-        "x": 1110,
-        "y": 120,
+        "broker": "9897dc40.deeac",
+        "x": 985.0000076293945,
+        "y": 2131.9999284744263,
         "wires": []
     },
     {
-        "id": "8d1ab0bd.3b716",
-        "type": "ui_button",
-        "z": "3385a279.7c006e",
+        "id": "9c89564c.f63438",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Einschalten",
+        "func": "msg.payload=\"TOGGLE\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 636.0000076293945,
+        "y": 2099.9999284744263,
+        "wires": [
+            [
+                "f14e456c.721d78"
+            ]
+        ]
+    },
+    {
+        "id": "8fb3ecad.ead63",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "Cube-Actions",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "tap",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "slide",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "shake",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip90",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip180",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 7,
+        "x": 401.00000762939453,
+        "y": 2140.9999284744263,
+        "wires": [
+            [
+                "9c89564c.f63438"
+            ],
+            [
+                "16519033.52719"
+            ],
+            [
+                "c49f9aa6.a80718"
+            ],
+            [
+                "bafcaa0.3ea2358"
+            ],
+            [
+                "bafcaa0.3ea2358"
+            ],
+            [
+                "bbe5857c.505638"
+            ],
+            [
+                "28150f2f.09478"
+            ]
+        ]
+    },
+    {
+        "id": "bafcaa0.3ea2358",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Helligkeit",
+        "func": "var b = global.get(\"osram_brightness\")+msg.payload.angle;\n//var a = global.get(\"osram_brightness\");\nif (b <= 1){\n    b = 1;\n} else if (b >= 255){\n    b = 255;\n}\nmsg.payload={\"brightness\":b, \"transition\": 1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 627.0000076293945,
+        "y": 2212.9999284744263,
+        "wires": [
+            [
+                "f14e456c.721d78"
+            ]
+        ]
+    },
+    {
+        "id": "a056934d.89fc8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Helligkeit",
+        "func": "var b = msg.payload.brightness;\nglobal.set(\"osram_brightness\",b);\nmsg.payload = global.get(\"osram_brightness\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 119,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "51682d4d.5b2004",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Osram Glühbirne",
+        "topic": "zigbee2mqtt/osram_light",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 117,
+        "y": 118,
+        "wires": [
+            [
+                "a056934d.89fc8",
+                "6ae63830.49def8"
+            ]
+        ]
+    },
+    {
+        "id": "6ae63830.49def8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Farbtemperatur",
+        "func": "var b = msg.payload.color_temp;\nglobal.set(\"osram_color_temp\",b);\nmsg.payload = global.get(\"osram_color_temp\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 361,
+        "y": 177,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c49f9aa6.a80718",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Farbtemperatur +",
+        "func": "var b = global.get(\"osram_color_temp\")+40;\nif (b <= 153){\n    b = 153;\n} else if (b >= 526){\n    b = 526;\n}\nmsg.payload={\"color_temp\":b, \"transition\": 1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650.0000076293945,
+        "y": 2168.9999284744263,
+        "wires": [
+            [
+                "f14e456c.721d78"
+            ]
+        ]
+    },
+    {
+        "id": "16519033.52719",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Farbtemperatur -",
+        "func": "var b = global.get(\"osram_color_temp\")-40;\nif (b <= 153){\n    b = 153;\n} else if (b >= 526){\n    b = 526;\n}\nmsg.payload={\"color_temp\":b, \"transition\": 1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 651.0000076293945,
+        "y": 2134.9999284744263,
+        "wires": [
+            [
+                "f14e456c.721d78"
+            ]
+        ]
+    },
+    {
+        "id": "28150f2f.09478",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Farbe +40",
+        "func": "var b = global.get(\"osram_hue\")+40;\nif (b >= 360){\n    b = 1;\n} else if (b <= 360){\n} else {\n    b = 1;\n}\nglobal.set(\"osram_hue\",b);\nmsg.payload={color:{\"hue\":b}, \"transition\": 1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 633.0000076293945,
+        "y": 2292.9999284744263,
+        "wires": [
+            [
+                "f14e456c.721d78"
+            ]
+        ]
+    },
+    {
+        "id": "bba8c227.084bc",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Hue auf 1",
+        "func": "msg.payload = global.set(\"osram_hue\",1);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 321,
+        "y": 402,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a34dd149.91d2d",
+        "type": "inject",
+        "z": "b99157da.743c48",
         "name": "",
-        "group": "c3e0f2df.dafe2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 111,
+        "y": 403,
+        "wires": [
+            [
+                "bba8c227.084bc"
+            ]
+        ]
+    },
+    {
+        "id": "bbe5857c.505638",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Farbe +20",
+        "func": "var b = global.get(\"osram_hue\")+20;\nif (b >= 360){\n    b = 1;\n} else if (b <= 360){\n} else {\n    b = 1;\n}\nglobal.set(\"osram_hue\",b);\nmsg.payload={color:{\"hue\":b}, \"transition\": 1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 633.0000076293945,
+        "y": 2252.9999284744263,
+        "wires": [
+            [
+                "f14e456c.721d78"
+            ]
+        ]
+    },
+    {
+        "id": "406f6bbf.cc1744",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 0 - Globals",
+        "info": "",
+        "x": 123,
+        "y": 52,
+        "wires": []
+    },
+    {
+        "id": "e33850dd.4ca94",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Phase",
+        "func": "global.set(\"phase\",0);\nmsg.payload = global.get(\"phase\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 313,
+        "y": 464,
+        "wires": [
+            [
+                "1d260d7e.6f3c13"
+            ]
+        ]
+    },
+    {
+        "id": "548c87f2.b2adc8",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 108,
+        "y": 462,
+        "wires": [
+            [
+                "e33850dd.4ca94",
+                "f1021490.16c3d8",
+                "c1e0869c.557a08",
+                "a2b65725.070468",
+                "f9e8e2f.3839a2"
+            ]
+        ]
+    },
+    {
+        "id": "fb9fbe5f.70ec2",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Temperatursensor",
+        "topic": "zigbee2mqtt/temp",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 121,
+        "y": 243,
+        "wires": [
+            [
+                "6db54785.de9de8"
+            ]
+        ]
+    },
+    {
+        "id": "6db54785.de9de8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Temperatur",
+        "func": "var b = msg.payload.temperature;\nglobal.set(\"temp\",b);\nmsg.payload = global.get(\"temp\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 344,
+        "y": 244,
+        "wires": [
+            [
+                "6fa63c4.6a8c1c4"
+            ]
+        ]
+    },
+    {
+        "id": "8691c0ab.9af0e",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 89,
+        "y": 303,
+        "wires": [
+            [
+                "9bf35e36.39455"
+            ]
+        ]
+    },
+    {
+        "id": "9bf35e36.39455",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Schublade",
+        "func": "var b = msg.payload.contact;\nif (b === false){\n    global.set(\"schublade\",\"Die Schublade ist offen\");\n} else if  (b === true) {\n    global.set(\"schublade\",\"Die Schublade ist zu\");\n}\nmsg.payload = global.get(\"schublade\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 342,
+        "y": 304,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63444331.b0b2fc",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Cube",
+        "topic": "zigbee2mqtt/cube",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 97.00000762939453,
+        "y": 1999.9999284744263,
+        "wires": [
+            [
+                "32333de2.bd9d52"
+            ]
+        ]
+    },
+    {
+        "id": "a180f7d2.00ce78",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "Cube-Actions",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "tap",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "slide",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "shake",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip90",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip180",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 7,
+        "x": 442.00000762939453,
+        "y": 1995.9999284744263,
+        "wires": [
+            [
+                "6f6e726a.af3d4c"
+            ],
+            [],
+            [
+                "3870138.4c5d6ec"
+            ],
+            [
+                "d63fbc19.a0009"
+            ],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "32333de2.bd9d52",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 247.00000762939453,
+        "y": 1998.9999284744263,
+        "wires": [
+            [
+                "a180f7d2.00ce78"
+            ]
+        ]
+    },
+    {
+        "id": "3870138.4c5d6ec",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_shake",
+        "func": "global.set(\"shake\",1);\nmsg.payload = global.get(\"shake\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 748.0000076293945,
+        "y": 1994.9999284744263,
+        "wires": [
+            [
+                "8cb5f735.961988"
+            ]
+        ]
+    },
+    {
+        "id": "6f6e726a.af3d4c",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_tap",
+        "func": "global.set(\"tap\",1);\nmsg.payload = global.get(\"tap\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 739.0000076293945,
+        "y": 1957.9999284744263,
+        "wires": [
+            [
+                "8cb5f735.961988"
+            ]
+        ]
+    },
+    {
+        "id": "d63fbc19.a0009",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_rotate_right",
+        "func": "global.set(\"rotate_right\",1);\nmsg.payload = global.get(\"rotate_right\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 768.0000076293945,
+        "y": 2032.9999284744263,
+        "wires": [
+            [
+                "8cb5f735.961988"
+            ]
+        ]
+    },
+    {
+        "id": "fa9376d6.d44e58",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 4 - Cube steuert die Lampe",
+        "info": "",
+        "x": 187.00000762939453,
+        "y": 1913.9999284744263,
+        "wires": []
+    },
+    {
+        "id": "c1e0869c.557a08",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_shake",
+        "func": "global.set(\"shake\",0);\nmsg.payload = global.get(\"shake\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 566,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f1021490.16c3d8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_tap",
+        "func": "global.set(\"tap\",0);\nmsg.payload = global.get(\"tap\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 321,
+        "y": 529,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a2b65725.070468",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_rotate_right",
+        "func": "global.set(\"rotate_right\",0);\nmsg.payload = global.get(\"rotate_right\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 604,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf343e30.6d22e",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 0 - Schublade wird geöffnet",
+        "info": "",
+        "x": 183,
+        "y": 935.0000343322754,
+        "wires": []
+    },
+    {
+        "id": "f044bca2.74305",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 102,
+        "y": 1003.0000343322754,
+        "wires": [
+            [
+                "df426d22.7b46a"
+            ]
+        ]
+    },
+    {
+        "id": "be2bb210.a799d",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Phase",
+        "func": "global.set(\"phase\",1);\nmsg.payload = global.get(\"phase\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 1078.0000343322754,
+        "wires": [
+            [
+                "fb966b43.abaf88",
+                "bde328b1.1ed558"
+            ]
+        ]
+    },
+    {
+        "id": "df426d22.7b46a",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 269,
+        "y": 1004.0000343322754,
+        "wires": [
+            [
+                "be2bb210.a799d",
+                "fb966b43.abaf88"
+            ]
+        ]
+    },
+    {
+        "id": "3e4c36c2.451e5a",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 1 - Web-Page",
+        "info": "",
+        "x": 135,
+        "y": 1155.0000381469727,
+        "wires": []
+    },
+    {
+        "id": "4141edef.c0f5a4",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 2 - Schublade 15sek",
+        "info": "",
+        "x": 167.0000114440918,
+        "y": 1434.9999961853027,
+        "wires": []
+    },
+    {
+        "id": "c84a1bdc.b20c18",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Türkontakt",
+        "topic": "zigbee2mqtt/xiaomi_contact",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 108.0000114440918,
+        "y": 1501.9999961853027,
+        "wires": [
+            [
+                "6798734c.90694c"
+            ]
+        ]
+    },
+    {
+        "id": "a2e0947.0952b68",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Phase",
+        "func": "global.set(\"phase\",3);\nmsg.payload = global.get(\"phase\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 789.0000114440918,
+        "y": 1498.0001678466797,
+        "wires": [
+            [
+                "de79263a.8596d8",
+                "525875f4.0c0fec",
+                "c769d6c5.c41d28",
+                "b0175b91.3eb878"
+            ]
+        ]
+    },
+    {
+        "id": "6798734c.90694c",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 275.0000114440918,
+        "y": 1502.9999961853027,
+        "wires": [
+            [
+                "20f8cc33.fc3a74",
+                "77385098.ef822"
+            ]
+        ]
+    },
+    {
+        "id": "bfaa1cb4.bfbfd",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 3 - Temp über 28°C",
+        "info": "",
+        "x": 161.0000114440918,
+        "y": 1674.9999961853027,
+        "wires": []
+    },
+    {
+        "id": "5d072544.24ce8c",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Temperatursensor",
+        "topic": "zigbee2mqtt/temp",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 142.0000114440918,
+        "y": 1741.9999961853027,
+        "wires": [
+            [
+                "e4b49d09.d5faf"
+            ]
+        ]
+    },
+    {
+        "id": "3d6edfc0.49bf3",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Phase",
+        "func": "global.set(\"phase\",4);\nmsg.payload = global.get(\"phase\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 664.0000076293945,
+        "y": 1743.0000009536743,
+        "wires": [
+            [
+                "ed04de41.fff4a",
+                "e06b7036.e9af9",
+                "8aff468f.f4fcf8",
+                "1f47702c.40e71"
+            ]
+        ]
+    },
+    {
+        "id": "e4b49d09.d5faf",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 335.0000114440918,
+        "y": 1741.9999961853027,
+        "wires": [
+            [
+                "1b7fe586.3017da",
+                "fa0699e9.660b48"
+            ]
+        ]
+    },
+    {
+        "id": "1b7fe586.3017da",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "temp",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "27",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 499.0000114440918,
+        "y": 1741.9999961853027,
+        "wires": [
+            [
+                "3d6edfc0.49bf3"
+            ]
+        ]
+    },
+    {
+        "id": "a6a161e6.9cc67",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/1",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 739.0000114440918,
+        "y": 1817.9999961853027,
+        "wires": []
+    },
+    {
+        "id": "e904e8.56dd1b18",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/2",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 645.0000114440918,
+        "y": 1570.9999961853027,
+        "wires": []
+    },
+    {
+        "id": "20f8cc33.fc3a74",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Schublade",
+        "func": "msg.payload = global.get(\"schublade\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 479.0000114440918,
+        "y": 1569.9999961853027,
+        "wires": [
+            [
+                "e904e8.56dd1b18"
+            ]
+        ]
+    },
+    {
+        "id": "fa0699e9.660b48",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Temperatur ausgabe",
+        "func": "msg.payload = \"Es sind gerade \"+global.get(\"temp\")+\"°C\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 534.0000114440918,
+        "y": 1817.9999961853027,
+        "wires": [
+            [
+                "a6a161e6.9cc67",
+                "ed04de41.fff4a"
+            ]
+        ]
+    },
+    {
+        "id": "53ca4975.6f8db8",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Cube",
+        "topic": "zigbee2mqtt/cube",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 99,
+        "y": 2354.0001821517944,
+        "wires": [
+            [
+                "a0608ba7.e7d118"
+            ]
+        ]
+    },
+    {
+        "id": "a0608ba7.e7d118",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 249,
+        "y": 2353.0001821517944,
+        "wires": [
+            [
+                "90ee47e.badbcb8"
+            ]
+        ]
+    },
+    {
+        "id": "90ee47e.badbcb8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Phase",
+        "func": "if (global.get(\"tap\") == 1 && global.get(\"shake\") == 1 && global.get(\"rotate_right\") == 1){\n\n        global.set(\"phase\",5);\n        msg.payload = global.get(\"phase\");\n        return msg;\n    \n\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 391.00000381469727,
+        "y": 2353.00013256073,
+        "wires": [
+            [
+                "6e5a3749.4970e8"
+            ]
+        ]
+    },
+    {
+        "id": "2ae2ffe5.9a0a3",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 236.00000762939453,
+        "y": 2141.9999284744263,
+        "wires": [
+            [
+                "8fb3ecad.ead63"
+            ]
+        ]
+    },
+    {
+        "id": "28fbb80e.ed90e8",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 5 - Cube-Rätsel",
+        "info": "",
+        "x": 130,
+        "y": 2621.0000791549683,
+        "wires": []
+    },
+    {
+        "id": "c426f594.dcc638",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Cube",
+        "topic": "zigbee2mqtt/cube",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 98,
+        "y": 2465.0001821517944,
+        "wires": [
+            [
+                "b5913d1e.31996"
+            ]
+        ]
+    },
+    {
+        "id": "ff444051.5badf",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "Cube-Actions",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "tap",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "slide",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "shake",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip90",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip180",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 7,
+        "x": 403,
+        "y": 2468.0001821517944,
+        "wires": [
+            [
+                "93125aa0.9f76b8"
+            ],
+            [
+                "93125aa0.9f76b8"
+            ],
+            [
+                "93125aa0.9f76b8"
+            ],
+            [
+                "93125aa0.9f76b8"
+            ],
+            [
+                "93125aa0.9f76b8"
+            ],
+            [
+                "93125aa0.9f76b8"
+            ],
+            [
+                "93125aa0.9f76b8"
+            ]
+        ]
+    },
+    {
+        "id": "b5913d1e.31996",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 238,
+        "y": 2469.0001821517944,
+        "wires": [
+            [
+                "ff444051.5badf"
+            ]
+        ]
+    },
+    {
+        "id": "93125aa0.9f76b8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Action-MSG",
+        "func": "var b = msg.payload.action;\nmsg.payload = \"Cube: \" + b;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 633,
+        "y": 2469.0001821517944,
+        "wires": [
+            [
+                "a8aac21b.d6d98"
+            ]
+        ]
+    },
+    {
+        "id": "a8aac21b.d6d98",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/1",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 831,
+        "y": 2467.0001821517944,
+        "wires": []
+    },
+    {
+        "id": "1e07b079.976c5",
+        "type": "comment",
+        "z": "b99157da.743c48",
+        "name": "Phase 6 - Erfolg!",
+        "info": "",
+        "x": 115,
+        "y": 3144.0000791549683,
+        "wires": []
+    },
+    {
+        "id": "f9e8e2f.3839a2",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "g_cube_status",
+        "func": "global.set(\"cube\",0);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 346,
+        "y": 644,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a41b2a.9b16b5",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "1",
+        "func": "global.set(\"cube\",1);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 815.0000114440918,
+        "y": 2644.9999418258667,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "51b0e6cf.4fcc98",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Cube",
+        "topic": "zigbee2mqtt/cube",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 94,
+        "y": 2748.0000791549683,
+        "wires": [
+            [
+                "73a2443a.7c68ec"
+            ]
+        ]
+    },
+    {
+        "id": "3eea90ce.bd97d",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "Cube-Actions",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "tap",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "slide",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "shake",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_right",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "rotate_left",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip90",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "flip180",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 7,
+        "x": 399,
+        "y": 2751.0000791549683,
+        "wires": [
+            [
+                "51a640f7.d313c"
+            ],
+            [
+                "7270466.12b1eb8"
+            ],
+            [
+                "ae0a7196.c2876"
+            ],
+            [
+                "53179ec5.9e8da"
+            ],
+            [
+                "b79119aa.af4258"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "73a2443a.7c68ec",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "5",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 234,
+        "y": 2752.0000791549683,
+        "wires": [
+            [
+                "3eea90ce.bd97d"
+            ]
+        ]
+    },
+    {
+        "id": "3cfb7222.7b824e",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "6",
+        "func": "global.set(\"cube\",6);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 813.0000114440918,
+        "y": 2684.999942779541,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "fb77d039.768a3",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "9",
+        "func": "global.set(\"cube\",9);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 815.0000114440918,
+        "y": 2727.999942779541,
+        "wires": [
+            [
+                "5450dcaa.5af6e4"
+            ]
+        ]
+    },
+    {
+        "id": "f13c15d5.76ab38",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "2",
+        "func": "global.set(\"cube\",2);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 822,
+        "y": 2844.0000791549683,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "be36e943.9e7a78",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "4",
+        "func": "global.set(\"cube\",4);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 828,
+        "y": 2893.0000791549683,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "76b7afe3.ca743",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "7",
+        "func": "global.set(\"cube\",7);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 831,
+        "y": 2940.0000791549683,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "a42ebf01.a5c0d",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "3",
+        "func": "global.set(\"cube\",3);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 830.0000114440918,
+        "y": 2982.9999465942383,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "53179ec5.9e8da",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "cube_status_right",
+        "property": "cube",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "7",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 628.0000076293945,
+        "y": 2918.9999437332153,
+        "wires": [
+            [
+                "a42ebf01.a5c0d"
+            ],
+            [
+                "b4c54c66.0ecda"
+            ]
+        ]
+    },
+    {
+        "id": "31b5df8d.e755a",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "5",
+        "func": "global.set(\"cube\",5);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 826.0000114440918,
+        "y": 3066.9999494552612,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "b79119aa.af4258",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "cube_status",
+        "property": "cube",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 655,
+        "y": 3052.0000791549683,
+        "wires": [
+            [
+                "31b5df8d.e755a"
+            ]
+        ]
+    },
+    {
+        "id": "b4c54c66.0ecda",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "8",
+        "func": "global.set(\"cube\",8);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 830.0000114440918,
+        "y": 3024.9999465942383,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "ae0a7196.c2876",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "reset",
+        "func": "global.set(\"cube\",0);\nmsg.payload = global.get(\"cube\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 815.0000114440918,
+        "y": 2779.9999437332153,
+        "wires": [
+            [
+                "9a5d8acb.78fd38"
+            ]
+        ]
+    },
+    {
+        "id": "5450dcaa.5af6e4",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Erfolg!",
+        "func": "msg.payload = \"Herzlichen Glückwunsch! Ihr habt es geschaft!\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 957.5,
+        "y": 2770.0000791549683,
+        "wires": [
+            [
+                "f9139161.cfa95",
+                "9a5d8acb.78fd38",
+                "c3844560.10c238"
+            ]
+        ]
+    },
+    {
+        "id": "f9139161.cfa95",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel/1",
+        "topic": "spiegel/1",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1173.5000190734863,
+        "y": 2769.999942779541,
+        "wires": []
+    },
+    {
+        "id": "fb966b43.abaf88",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 626,
+        "y": 1005.0000343322754,
+        "wires": []
+    },
+    {
+        "id": "de79263a.8596d8",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 934.0000076293945,
+        "y": 1499.0000705718994,
+        "wires": []
+    },
+    {
+        "id": "ed04de41.fff4a",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 895.0000114440918,
+        "y": 1744.9999961853027,
+        "wires": []
+    },
+    {
+        "id": "8eee317b.98b2d",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1202,
+        "y": 2354.0001821517944,
+        "wires": []
+    },
+    {
+        "id": "8cb5f735.961988",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1089.0000076293945,
+        "y": 1982.9999284744263,
+        "wires": []
+    },
+    {
+        "id": "9a5d8acb.78fd38",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1268,
+        "y": 2906.0000791549683,
+        "wires": []
+    },
+    {
+        "id": "1d260d7e.6f3c13",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 549.5,
+        "y": 462,
+        "wires": []
+    },
+    {
+        "id": "6fa63c4.6a8c1c4",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 564,
+        "y": 243,
+        "wires": []
+    },
+    {
+        "id": "c106944c.d89418",
+        "type": "ui_button",
+        "z": "b99157da.743c48",
+        "name": "",
+        "group": "f51bac59.8d30f",
         "order": 1,
         "width": 8,
         "height": 8,
@@ -34,25 +1662,25 @@
         "color": "",
         "bgcolor": "",
         "icon": "touch_app",
-        "payload": "",
+        "payload": "halte die Schublade exakt 15 Sekunden geschlossen",
         "payloadType": "str",
-        "topic": "",
-        "x": 850,
-        "y": 100,
+        "topic": "spiegel",
+        "x": 773.0000152587891,
+        "y": 1262.6000337600708,
         "wires": [
             [
-                "9d410f13.49d4d"
+                "f817304c.1f4c2"
             ]
         ]
     },
     {
-        "id": "4933bbe8.99d634",
+        "id": "a8f01a6.a355de8",
         "type": "ui_text_input",
-        "z": "3385a279.7c006e",
+        "z": "b99157da.743c48",
         "name": "",
         "label": "Lösung",
         "tooltip": "",
-        "group": "92b1cb3e.30b0d8",
+        "group": "1e36b0c.ea45e4f",
         "order": 4,
         "width": 0,
         "height": 0,
@@ -60,19 +1688,19 @@
         "mode": "text",
         "delay": 300,
         "topic": "",
-        "x": 60,
-        "y": 100,
+        "x": 136,
+        "y": 1266.6000671386719,
         "wires": [
             [
-                "9e3fa282.3f72a"
+                "95b74641.4a3c48"
             ]
         ]
     },
     {
-        "id": "9d812d8f.f0b5d",
+        "id": "bf57e4e9.fcd198",
         "type": "ui_text",
-        "z": "3385a279.7c006e",
-        "group": "92b1cb3e.30b0d8",
+        "z": "b99157da.743c48",
+        "group": "1e36b0c.ea45e4f",
         "order": 2,
         "width": 0,
         "height": 0,
@@ -80,30 +1708,30 @@
         "label": "Was ist das einfache Wort für partizipativ?",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 280,
-        "y": 260,
+        "x": 247,
+        "y": 1338.6000442504883,
         "wires": []
     },
     {
-        "id": "9e3fa282.3f72a",
+        "id": "95b74641.4a3c48",
         "type": "function",
-        "z": "3385a279.7c006e",
+        "z": "b99157da.743c48",
         "name": "Validere Eingabe",
         "func": "if(msg.payload === \"teilnehmend\"){\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 270,
-        "y": 100,
+        "x": 318,
+        "y": 1267.6000413894653,
         "wires": [
             [
-                "fc9d9d7d.2a70c"
+                "7b18fee8.ffe79"
             ]
         ]
     },
     {
-        "id": "aa4c2c2b.90f6f",
+        "id": "beb2cd28.e642d",
         "type": "inject",
-        "z": "3385a279.7c006e",
+        "z": "b99157da.743c48",
         "name": "",
         "topic": "",
         "payload": "",
@@ -112,18 +1740,18 @@
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
-        "x": 250,
-        "y": 40,
+        "x": 298,
+        "y": 1207.6000413894653,
         "wires": [
             [
-                "e8e1101e.5216a"
+                "b5c3f53d.d713f8"
             ]
         ]
     },
     {
-        "id": "e8e1101e.5216a",
+        "id": "b5c3f53d.d713f8",
         "type": "change",
-        "z": "3385a279.7c006e",
+        "z": "b99157da.743c48",
         "name": "",
         "rules": [
             {
@@ -139,18 +1767,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 440,
-        "y": 40,
+        "x": 488,
+        "y": 1207.6000413894653,
         "wires": [
             [
-                "8d1ab0bd.3b716"
+                "c106944c.d89418"
             ]
         ]
     },
     {
-        "id": "fc9d9d7d.2a70c",
+        "id": "7b18fee8.ffe79",
         "type": "change",
-        "z": "3385a279.7c006e",
+        "z": "b99157da.743c48",
         "name": "",
         "rules": [
             {
@@ -166,24 +1794,1010 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 480,
-        "y": 100,
+        "x": 528,
+        "y": 1267.6000413894653,
         "wires": [
             [
-                "8d1ab0bd.3b716"
+                "c106944c.d89418"
             ]
         ]
     },
     {
-        "id": "337e7e79.a05472",
+        "id": "f817304c.1f4c2",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "phase",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 943.9999923706055,
+        "y": 1261.6000337600708,
+        "wires": [
+            [
+                "e5df64a2.9b42e8",
+                "6e021295.b9f33c",
+                "cbe639d8.744648"
+            ]
+        ]
+    },
+    {
+        "id": "e5df64a2.9b42e8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Phase",
+        "func": "global.set(\"phase\",2);\nmsg.payload = global.get(\"phase\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1108.000015258789,
+        "y": 1195.6001081466675,
+        "wires": [
+            [
+                "6f9e960.5593f6c",
+                "8005dd65.73e62"
+            ]
+        ]
+    },
+    {
+        "id": "6f9e960.5593f6c",
+        "type": "debug",
+        "z": "b99157da.743c48",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1275.9999923706055,
+        "y": 1195.6000366210938,
+        "wires": []
+    },
+    {
+        "id": "b31d7e31.df2be",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/1",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1304.0000190734863,
+        "y": 1261.400107383728,
+        "wires": []
+    },
+    {
+        "id": "6e021295.b9f33c",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Begruesungstext",
+        "func": "msg.payload = \"Herzlichen Glückwunsch! Du hast den Spiegel Aktiviert\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1123.000015258789,
+        "y": 1261.400110244751,
+        "wires": [
+            [
+                "b31d7e31.df2be"
+            ]
+        ]
+    },
+    {
+        "id": "36778aa8.489176",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/3",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1307,
+        "y": 1334.4000902175903,
+        "wires": []
+    },
+    {
+        "id": "cbe639d8.744648",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Aufgabe Schublade",
+        "func": "msg.payload = \"Halte die Schublade exakt 15sec geschlossen!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1125.9999961853027,
+        "y": 1334.4000930786133,
+        "wires": [
+            [
+                "36778aa8.489176"
+            ]
+        ]
+    },
+    {
+        "id": "3c0b3629.a2746a",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 109,
+        "y": 707.4000244140625,
+        "wires": [
+            [
+                "bac48488.1bc548"
+            ]
+        ]
+    },
+    {
+        "id": "fe2cda78.6e7c28",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/1",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 486.00000381469727,
+        "y": 709.9999866485596,
+        "wires": []
+    },
+    {
+        "id": "62c44cc6.8fdaa4",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/3",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 488.99998474121094,
+        "y": 782.9999694824219,
+        "wires": []
+    },
+    {
+        "id": "83697f5c.f0baa",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/2",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 487.00000381469727,
+        "y": 744.9999866485596,
+        "wires": []
+    },
+    {
+        "id": "bac48488.1bc548",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "reset Spiegel-Texte",
+        "func": "msg.payload = \"\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 291,
+        "y": 708.5999755859375,
+        "wires": [
+            [
+                "fe2cda78.6e7c28",
+                "83697f5c.f0baa",
+                "62c44cc6.8fdaa4"
+            ]
+        ]
+    },
+    {
+        "id": "77385098.ef822",
+        "type": "interval-length",
+        "z": "b99157da.743c48",
+        "format": "mills",
+        "bytopic": false,
+        "minimum": "10",
+        "maximum": "20",
+        "window": "",
+        "timeout": false,
+        "msgTimeout": "25",
+        "minimumunit": "secs",
+        "maximumunit": "secs",
+        "windowunit": "msecs",
+        "msgTimeoutUnit": "secs",
+        "reset": false,
+        "startup": false,
+        "msgField": "payload.time",
+        "timestampField": "timestamp",
+        "repeatTimeout": false,
+        "name": "",
+        "x": 473.1000518798828,
+        "y": 1501.80006980896,
+        "wires": [
+            [
+                "48b19139.fcdf"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "48b19139.fcdf",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "property": "payload.contact",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "env"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 650.0000076293945,
+        "y": 1494.8000707626343,
+        "wires": [
+            [
+                "a2e0947.0952b68"
+            ]
+        ]
+    },
+    {
+        "id": "f3a7ba39.1d0e88",
+        "type": "ui_switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "label": "Phase 0 - Schublade wird geöffnet",
+        "tooltip": "",
+        "group": "3317fce.3571804",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "gate",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "done",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "clear",
+        "offcolor": "red",
+        "x": 883,
+        "y": 1075,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bde328b1.1ed558",
+        "type": "change",
+        "z": "b99157da.743c48",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 1076,
+        "wires": [
+            [
+                "f3a7ba39.1d0e88"
+            ]
+        ]
+    },
+    {
+        "id": "5ca85c12.dafa84",
+        "type": "ui_switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "label": "Phase 1 - Web-Page",
+        "tooltip": "",
+        "group": "3317fce.3571804",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "gate",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "done",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "clear",
+        "offcolor": "red",
+        "x": 1491,
+        "y": 1143,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8005dd65.73e62",
+        "type": "change",
+        "z": "b99157da.743c48",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1278,
+        "y": 1144,
+        "wires": [
+            [
+                "5ca85c12.dafa84"
+            ]
+        ]
+    },
+    {
+        "id": "4ac698e5.5d3668",
+        "type": "ui_switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "label": "Phase 2 - Schublade 15sek",
+        "tooltip": "",
+        "group": "3317fce.3571804",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "gate",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "done",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "clear",
+        "offcolor": "red",
+        "x": 1183,
+        "y": 1448,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "525875f4.0c0fec",
+        "type": "change",
+        "z": "b99157da.743c48",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 1449,
+        "wires": [
+            [
+                "4ac698e5.5d3668"
+            ]
+        ]
+    },
+    {
+        "id": "2eb41acb.ed5146",
+        "type": "ui_switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "label": "Phase 3 - Temp über 30°C",
+        "tooltip": "",
+        "group": "3317fce.3571804",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "gate",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "done",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "clear",
+        "offcolor": "red",
+        "x": 1140,
+        "y": 1694,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e06b7036.e9af9",
+        "type": "change",
+        "z": "b99157da.743c48",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 907,
+        "y": 1695,
+        "wires": [
+            [
+                "2eb41acb.ed5146"
+            ]
+        ]
+    },
+    {
+        "id": "3f58bfa9.b6d8b",
+        "type": "ui_switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "label": "Phase 4 - Cube steuert die Lampe",
+        "tooltip": "",
+        "group": "3317fce.3571804",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "gate",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "done",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "clear",
+        "offcolor": "red",
+        "x": 1156,
+        "y": 2310,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "80fa6202.220f1",
+        "type": "change",
+        "z": "b99157da.743c48",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 903,
+        "y": 2311,
+        "wires": [
+            [
+                "3f58bfa9.b6d8b"
+            ]
+        ]
+    },
+    {
+        "id": "b12fa73f.fe2728",
+        "type": "ui_switch",
+        "z": "b99157da.743c48",
+        "name": "",
+        "label": "Phase 5 - Cube-Rätsel",
+        "tooltip": "",
+        "group": "3317fce.3571804",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "gate",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "done",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "clear",
+        "offcolor": "red",
+        "x": 1415,
+        "y": 2716,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c3844560.10c238",
+        "type": "change",
+        "z": "b99157da.743c48",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1184,
+        "y": 2716,
+        "wires": [
+            [
+                "b12fa73f.fe2728"
+            ]
+        ]
+    },
+    {
+        "id": "27e406ac.b06a8a",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "Deaktivieren",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1173,
+        "y": 2656,
+        "wires": [
+            [
+                "b12fa73f.fe2728"
+            ]
+        ]
+    },
+    {
+        "id": "dd15ab24.ed4978",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "Deaktivieren",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 893,
+        "y": 2268,
+        "wires": [
+            [
+                "3f58bfa9.b6d8b"
+            ]
+        ]
+    },
+    {
+        "id": "d7f6a6b5.2eb628",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "Deaktivieren",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 895,
+        "y": 1650,
+        "wires": [
+            [
+                "2eb41acb.ed5146"
+            ]
+        ]
+    },
+    {
+        "id": "c8cf309e.eac1d",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "Deaktivieren",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 940,
+        "y": 1406,
+        "wires": [
+            [
+                "4ac698e5.5d3668"
+            ]
+        ]
+    },
+    {
+        "id": "4dc00b1b.177794",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "Deaktivieren",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 1267,
+        "y": 1099,
+        "wires": [
+            [
+                "5ca85c12.dafa84"
+            ]
+        ]
+    },
+    {
+        "id": "18ef9cbb.0bfb23",
+        "type": "inject",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "Deaktivieren",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 617,
+        "y": 1119,
+        "wires": [
+            [
+                "f3a7ba39.1d0e88"
+            ]
+        ]
+    },
+    {
+        "id": "527a5b9b.047a44",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/3",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1084.399990081787,
+        "y": 1573.9999990463257,
+        "wires": []
+    },
+    {
+        "id": "c769d6c5.c41d28",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Aufgabe Schublade",
+        "func": "msg.payload = \"Bringe die Temperatur auf über 30°C\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 889.4000205993652,
+        "y": 1574.000002861023,
+        "wires": [
+            [
+                "527a5b9b.047a44"
+            ]
+        ]
+    },
+    {
+        "id": "21f68e83.351b22",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/3",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1014.4000358581543,
+        "y": 2374.8000812530518,
+        "wires": []
+    },
+    {
+        "id": "8ee27be3.01b3d8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Aufgabe Tanzen",
+        "func": "msg.payload = \"Nun last uns Tanzen!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 823.400032043457,
+        "y": 2374.8000841140747,
+        "wires": [
+            [
+                "21f68e83.351b22"
+            ]
+        ]
+    },
+    {
+        "id": "4a55ad4c.21d094",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/2",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1014.4000244140625,
+        "y": 2410.39990234375,
+        "wires": []
+    },
+    {
+        "id": "42f101b5.cbb29",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Aufgabe Tanzen",
+        "func": "msg.payload = \"Tanzschritte: Tap - Slide - Right - Slide - Left - Tap - Slide - Right - Tap. Reseten macht man mit Shake\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 823.4000205993652,
+        "y": 2410.399905204773,
+        "wires": [
+            [
+                "4a55ad4c.21d094"
+            ]
+        ]
+    },
+    {
+        "id": "57763ad0.f5a724",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/2",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1130,
+        "y": 1817.800048828125,
+        "wires": []
+    },
+    {
+        "id": "8aff468f.f4fcf8",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Aufgabe Tanzen",
+        "func": "msg.payload = \"Du hast den Würfel freigeschaltet!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 938.9999961853027,
+        "y": 1817.800051689148,
+        "wires": [
+            [
+                "57763ad0.f5a724"
+            ]
+        ]
+    },
+    {
+        "id": "800824bb.8263d8",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/3",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1129.9999885559082,
+        "y": 1853.3998699188232,
+        "wires": []
+    },
+    {
+        "id": "1f47702c.40e71",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Aufgabe Tanzen",
+        "func": "msg.payload = \"Der Wüfel kann getapt, geschüttelt, gedreht und geflippt werden. Probiers mal aus!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 938.9999847412109,
+        "y": 1853.3998727798462,
+        "wires": [
+            [
+                "800824bb.8263d8"
+            ]
+        ]
+    },
+    {
+        "id": "6e5a3749.4970e8",
+        "type": "delay",
+        "z": "b99157da.743c48",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 588.099983215332,
+        "y": 2352.3999366760254,
+        "wires": [
+            [
+                "80fa6202.220f1",
+                "8eee317b.98b2d",
+                "8ee27be3.01b3d8",
+                "42f101b5.cbb29"
+            ]
+        ]
+    },
+    {
+        "id": "7775a93a.8d14d8",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "spiegel",
+        "topic": "spiegel/1",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1081.5999908447266,
+        "y": 1608.5999994277954,
+        "wires": []
+    },
+    {
+        "id": "b0175b91.3eb878",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Temperatur ausgabe",
+        "func": "msg.payload = \"Es sind gerade \"+global.get(\"temp\")+\"°C\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 899.5999755859375,
+        "y": 1609.5999755859375,
+        "wires": [
+            [
+                "7775a93a.8d14d8"
+            ]
+        ]
+    },
+    {
+        "id": "51a640f7.d313c",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "cube_status_tap",
+        "property": "cube",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "5",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "8",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 646.0000076293945,
+        "y": 2686.3999423980713,
+        "wires": [
+            [
+                "9a41b2a.9b16b5"
+            ],
+            [
+                "3cfb7222.7b824e"
+            ],
+            [
+                "fb77d039.768a3"
+            ]
+        ]
+    },
+    {
+        "id": "7270466.12b1eb8",
+        "type": "switch",
+        "z": "b99157da.743c48",
+        "name": "cube_status_slide",
+        "property": "cube",
+        "propertyType": "global",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "6",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 637.0000534057617,
+        "y": 2828.39994430542,
+        "wires": [
+            [
+                "f13c15d5.76ab38"
+            ],
+            [
+                "be36e943.9e7a78"
+            ],
+            [
+                "76b7afe3.ca743"
+            ]
+        ]
+    },
+    {
+        "id": "9897dc40.deeac",
         "type": "mqtt-broker",
         "z": "",
-        "name": "mqtt",
-        "broker": "mqtt",
+        "name": "MQTT",
+        "broker": "intia",
         "port": "1883",
         "clientid": "",
         "usetls": false,
-        "compatmode": false,
+        "compatmode": true,
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -197,34 +2811,54 @@
         "willPayload": ""
     },
     {
-        "id": "c3e0f2df.dafe2",
+        "id": "f51bac59.8d30f",
         "type": "ui_group",
         "z": "",
         "name": "Spiegel",
-        "tab": "2b886881.65bca8",
+        "tab": "6456a921.f7d168",
         "order": 2,
         "disp": false,
         "width": 8,
         "collapse": false
     },
     {
-        "id": "92b1cb3e.30b0d8",
+        "id": "1e36b0c.ea45e4f",
         "type": "ui_group",
         "z": "",
         "name": "Frage",
-        "tab": "2b886881.65bca8",
+        "tab": "6456a921.f7d168",
         "order": 1,
         "disp": false,
         "width": 8,
         "collapse": false
     },
     {
-        "id": "2b886881.65bca8",
+        "id": "3317fce.3571804",
+        "type": "ui_group",
+        "z": "",
+        "name": "Rätsel 3",
+        "tab": "1da15faa.f267e",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "6456a921.f7d168",
         "type": "ui_tab",
         "z": "",
         "name": "Mirror",
         "icon": "dashboard",
         "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "1da15faa.f267e",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Escape Game",
+        "icon": "dashboard",
         "disabled": false,
         "hidden": false
     }
