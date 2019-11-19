@@ -1,6 +1,6 @@
 [
     {
-        "id": "1d96ce19.11d612",
+        "id": "c3b0aeb7.ebd5",
         "type": "subflow",
         "name": "Kiste öffnen 2",
         "info": "",
@@ -13,11 +13,10 @@
             }
         ],
         "out": [],
-        "env": [],
-        "color": "#DDAA99"
+        "env": []
     },
     {
-        "id": "52e0b8d6.b56c78",
+        "id": "890b784d.cae6b8",
         "type": "subflow",
         "name": "Kiste öffnen 1",
         "info": "",
@@ -30,11 +29,10 @@
             }
         ],
         "out": [],
-        "env": [],
-        "color": "#DDAA99"
+        "env": []
     },
     {
-        "id": "44ef06f.82cb0f8",
+        "id": "b7b2c63b.6f06f8",
         "type": "subflow",
         "name": "Simon Says",
         "info": "",
@@ -45,10 +43,10 @@
                 "y": 60,
                 "wires": [
                     {
-                        "id": "4f7fec26.54c7f4"
+                        "id": "51a5f3b.f15830c"
                     },
                     {
-                        "id": "9779e060.7b6c"
+                        "id": "644c9c1e.1f3344"
                     }
                 ]
             }
@@ -59,19 +57,18 @@
                 "y": 220,
                 "wires": [
                     {
-                        "id": "98a5e2a7.64ddb",
+                        "id": "3f7efb8d.535d94",
                         "port": 0
                     }
                 ]
             }
         ],
-        "env": [],
-        "color": "#DDAA99"
+        "env": []
     },
     {
-        "id": "e1719d0c.874da",
+        "id": "2453440e.88ac3c",
         "type": "inject",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Example Green",
         "topic": "simon_says",
         "payload": "{\"id\":\"green\",\"action\":\"pressed\"}",
@@ -84,14 +81,14 @@
         "y": 120,
         "wires": [
             [
-                "9779e060.7b6c"
+                "644c9c1e.1f3344"
             ]
         ]
     },
     {
-        "id": "57994979.341a58",
+        "id": "97a5c15d.17e65",
         "type": "inject",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Example Red",
         "topic": "simon_says",
         "payload": "{\"id\":\"red\",\"action\":\"pressed\"}",
@@ -104,14 +101,14 @@
         "y": 180,
         "wires": [
             [
-                "9779e060.7b6c"
+                "644c9c1e.1f3344"
             ]
         ]
     },
     {
-        "id": "3adda519.2f766a",
+        "id": "f7997e88.e7aa8",
         "type": "inject",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Example Blue",
         "topic": "simon_says",
         "payload": "{\"id\":\"blue\",\"action\":\"pressed\"}",
@@ -124,14 +121,14 @@
         "y": 240,
         "wires": [
             [
-                "9779e060.7b6c"
+                "644c9c1e.1f3344"
             ]
         ]
     },
     {
-        "id": "30fc2ebc.40ecb2",
+        "id": "8f5bf9df.3f9058",
         "type": "inject",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Example Yellow",
         "topic": "simon_says",
         "payload": "{\"id\":\"yellow\",\"action\":\"pressed\"}",
@@ -144,14 +141,14 @@
         "y": 300,
         "wires": [
             [
-                "9779e060.7b6c"
+                "644c9c1e.1f3344"
             ]
         ]
     },
     {
-        "id": "7f2b3aea.963d64",
+        "id": "eb1ad527.c5c188",
         "type": "inject",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Reset Variables",
         "topic": "",
         "payload": "",
@@ -164,14 +161,14 @@
         "y": 400,
         "wires": [
             [
-                "84407d97.aa5be"
+                "2c45a490.dd2f3c"
             ]
         ]
     },
     {
-        "id": "84407d97.aa5be",
+        "id": "2c45a490.dd2f3c",
         "type": "function",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Set Variables",
         "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_amount',6);\n\n// Generate new rounds\nvar round_amount = global.get('round_amount');\nvar round_value=\"\";\nfor (var i=0, t=round_amount; i<t; i++) {\n    rnd_number = Math.floor((Math.random() * 4) + 1);\n    if(i>0){\n        round_value +=\" \";\n    }\n    switch(rnd_number){\n        case 1: \n            round_value+=\"green\";\n            break;\n        case 2:\n            round_value+=\"red\";\n            break;\n        case 3:\n            round_value+=\"blue\";\n            break;\n        case 4:\n            round_value+=\"yellow\";\n            break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    \n/* Hardcoded round\nglobal.set('round_1',\"green\")\nglobal.set('round_2',\"green blue\")\nglobal.set('round_3',\"green blue red\")\nglobal.set('round_4',\"green blue red red\")\nglobal.set('round_5',\"green blue red red yellow\")\nglobal.set('round_6',\"solved\")\n*/\n\nmsg.payload = global.get(\"round_1\");\nreturn msg;",
         "outputs": 1,
@@ -180,15 +177,15 @@
         "y": 400,
         "wires": [
             [
-                "cad40152.ac754",
-                "f4967446.6d1808"
+                "fc2db662.24ab28",
+                "a971208d.e81ad"
             ]
         ]
     },
     {
-        "id": "53e6b551.c738bc",
+        "id": "c3fc3609.824bf8",
         "type": "debug",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Print next round",
         "active": true,
         "tosidebar": true,
@@ -201,22 +198,22 @@
         "wires": []
     },
     {
-        "id": "f4967446.6d1808",
+        "id": "a971208d.e81ad",
         "type": "mqtt out",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "",
         "topic": "simon/set",
         "qos": "",
         "retain": "",
-        "broker": "aad7876.580ea78",
+        "broker": "9897dc40.deeac",
         "x": 640,
         "y": 280,
         "wires": []
     },
     {
-        "id": "9779e060.7b6c",
+        "id": "644c9c1e.1f3344",
         "type": "function",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "validate",
         "func": "// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_raw = global.get('round_'+round);\nvar round_values = round_raw.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"green\":\n        button_color = \"green\";\n        break;\n    case \"red\":\n        button_color = \"red\";\n        break;\n    case \"blue\":\n        button_color = \"blue\";\n        break;\n    case \"yellow\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n     node.warn(\"match\");\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'solved'){\n    msg.payload = round_json;\n    return msg;\n}else{\n      node.warn(\"Default\");\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    \n    // Generate new rounds\n    var round_amount = global.get('round_amount');\n    var round_value=\"\";\n    for (var i=0, t=round_amount; i<t; i++) {\n        rnd_number = Math.floor((Math.random() * 4) + 1);\n        if(i>0){\n            round_value +=\" \";\n        }\n        switch(rnd_number){\n            case 1: \n                round_value+=\"green\";\n                break;\n            case 2:\n                round_value+=\"red\";\n                break;\n            case 3:\n                round_value+=\"blue\";\n                break;\n            case 4:\n                round_value+=\"yellow\";\n                break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    msg.payload = global.get('round_1');\n    return msg;\n}",
         "outputs": 1,
@@ -225,16 +222,16 @@
         "y": 180,
         "wires": [
             [
-                "53e6b551.c738bc",
-                "f4967446.6d1808",
-                "98a5e2a7.64ddb"
+                "c3fc3609.824bf8",
+                "a971208d.e81ad",
+                "3f7efb8d.535d94"
             ]
         ]
     },
     {
-        "id": "cad40152.ac754",
+        "id": "fc2db662.24ab28",
         "type": "debug",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Print first round",
         "active": true,
         "tosidebar": true,
@@ -247,9 +244,9 @@
         "wires": []
     },
     {
-        "id": "4f7fec26.54c7f4",
+        "id": "51a5f3b.f15830c",
         "type": "debug",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -262,9 +259,9 @@
         "wires": []
     },
     {
-        "id": "98a5e2a7.64ddb",
+        "id": "3f7efb8d.535d94",
         "type": "switch",
-        "z": "44ef06f.82cb0f8",
+        "z": "b7b2c63b.6f06f8",
         "name": "Wenn gelöst",
         "property": "payload",
         "propertyType": "msg",
@@ -285,7 +282,7 @@
         ]
     },
     {
-        "id": "68ce7180.d6e22",
+        "id": "5eb1a328.a0b30c",
         "type": "subflow",
         "name": "Cables",
         "info": "",
@@ -296,10 +293,10 @@
                 "y": 80,
                 "wires": [
                     {
-                        "id": "362abce8.fd4884"
+                        "id": "2cf6a48c.e6442c"
                     },
                     {
-                        "id": "eb43917.307907"
+                        "id": "b9b61307.eb9f"
                     }
                 ]
             }
@@ -310,35 +307,34 @@
                 "y": 240,
                 "wires": [
                     {
-                        "id": "52fb75c.97fa78c",
+                        "id": "62768466.833b7c",
                         "port": 0
                     }
                 ]
             }
         ],
-        "env": [],
-        "color": "#DDAA99"
+        "env": []
     },
     {
-        "id": "eb43917.307907",
+        "id": "b9b61307.eb9f",
         "type": "function",
-        "z": "68ce7180.d6e22",
+        "z": "5eb1a328.a0b30c",
         "name": "Check cables",
-        "func": "// Configure cables\n// 0 = Connected\n// 1 = Not Connected\nvar yellow = 1;\nvar blue = 0;\nvar white = 1;\nvar green = 0;\nvar black = 0;\nvar red = 1;\nvar orange = 0;\n\n// Check value\nvar value = parseInt(msg.payload.split(\":\")[1]);\nvar factor = 1;\nvar sum=orange*1+red*10+black*100+green*1000+white*10000+blue*100000+yellow*1000000;\n\nif(sum === value){\n    node.warn(\"Solved\");\n}",
+        "func": "// Configure cables\n// 0 = Connected\n// 1 = Not Connected\nvar yellow = 1;\nvar blue = 0;\nvar white = 1;\nvar green = 0;\nvar black = 0;\nvar red = 1;\nvar orange = 0;\n\n// Check value\nvar value = parseInt(msg.payload.split(\":\")[1]);\nvar factor = 1;\nvar sum=orange*1+red*10+black*100+green*1000+white*10000+blue*100000+yellow*1000000;\nnode.warn(sum);\nif(sum === value){\n    node.warn(\"Solved\");\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "x": 400,
         "y": 120,
         "wires": [
             [
-                "29e432d1.35a9ce"
+                "168ddd21.745fe3"
             ]
         ]
     },
     {
-        "id": "29e432d1.35a9ce",
+        "id": "168ddd21.745fe3",
         "type": "function",
-        "z": "68ce7180.d6e22",
+        "z": "5eb1a328.a0b30c",
         "name": "ACK",
         "func": "msg.payload=\"{\\\"ack\\\":1}\"\nreturn msg;",
         "outputs": 1,
@@ -347,28 +343,28 @@
         "y": 180,
         "wires": [
             [
-                "6bd71699.a246d8",
-                "52fb75c.97fa78c"
+                "7c72d1a7.161d6",
+                "62768466.833b7c"
             ]
         ]
     },
     {
-        "id": "6bd71699.a246d8",
+        "id": "7c72d1a7.161d6",
         "type": "mqtt out",
-        "z": "68ce7180.d6e22",
+        "z": "5eb1a328.a0b30c",
         "name": "",
         "topic": "cable-riddle/set",
         "qos": "",
         "retain": "",
-        "broker": "aad7876.580ea78",
+        "broker": "9897dc40.deeac",
         "x": 740,
         "y": 180,
         "wires": []
     },
     {
-        "id": "362abce8.fd4884",
+        "id": "2cf6a48c.e6442c",
         "type": "debug",
-        "z": "68ce7180.d6e22",
+        "z": "5eb1a328.a0b30c",
         "name": "Debug",
         "active": false,
         "tosidebar": true,
@@ -381,9 +377,9 @@
         "wires": []
     },
     {
-        "id": "52fb75c.97fa78c",
+        "id": "62768466.833b7c",
         "type": "change",
-        "z": "68ce7180.d6e22",
+        "z": "5eb1a328.a0b30c",
         "name": "Gelöst senden",
         "rules": [
             {
@@ -406,7 +402,7 @@
         ]
     },
     {
-        "id": "8e30d363.1c9bf",
+        "id": "c1827fd5.4fdee",
         "type": "subflow",
         "name": "Morsen",
         "info": "",
@@ -417,7 +413,7 @@
                 "y": 120,
                 "wires": [
                     {
-                        "id": "337344dd.ea0d6c"
+                        "id": "cb0a3f0b.49673"
                     }
                 ]
             }
@@ -428,19 +424,18 @@
                 "y": 240,
                 "wires": [
                     {
-                        "id": "52bbb501.b786dc",
+                        "id": "f9d2ea49.d8c8d8",
                         "port": 0
                     }
                 ]
             }
         ],
-        "env": [],
-        "color": "#DDAA99"
+        "env": []
     },
     {
-        "id": "337344dd.ea0d6c",
+        "id": "cb0a3f0b.49673",
         "type": "switch",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Drücken oder Loslassen",
         "property": "payload.action",
         "propertyType": "msg",
@@ -463,19 +458,19 @@
         "y": 120,
         "wires": [
             [
-                "5d5c4eb0.ae0bf",
-                "b51f9bb6.ac2e18"
+                "3e7db12e.c43fde",
+                "ba4e409e.b919d"
             ],
             [
-                "b51f9bb6.ac2e18",
-                "d8ada6f3.b3ac18"
+                "ba4e409e.b919d",
+                "e191a530.579318"
             ]
         ]
     },
     {
-        "id": "5d5c4eb0.ae0bf",
+        "id": "3e7db12e.c43fde",
         "type": "change",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Zeit zurücksetzen",
         "rules": [
             {
@@ -495,14 +490,14 @@
         "y": 60,
         "wires": [
             [
-                "ed480b08.9b21b8"
+                "f44ac42b.2b75e8"
             ]
         ]
     },
     {
-        "id": "b51f9bb6.ac2e18",
+        "id": "ba4e409e.b919d",
         "type": "delay",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Nachrichten verzögern für reset",
         "pauseType": "delay",
         "timeout": "10",
@@ -518,15 +513,15 @@
         "y": 120,
         "wires": [
             [
-                "ed480b08.9b21b8",
-                "4f8522f5.71a65c"
+                "f44ac42b.2b75e8",
+                "dc47f393.5ce8c"
             ]
         ]
     },
     {
-        "id": "f6aec23d.e417a",
+        "id": "c89af099.89eb4",
         "type": "function",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Morse code prüfen",
         "func": "var solution_code = global.get('solution_code');\nvar current_code = global.get('current_code');\n\nif(current_code === \"\"){\n    msg.payload.paused=0;\n}\n//Get current morse code\nif(msg.payload.pressed > 1000){\n    current_code+=\"long \";\n}else if(msg.payload.pressed > 10 ){\n    current_code+=\"short \";\n}\n/*\n}else if(msg.payload.paused > 50000 ){\n    current_code+=\"word \";\n}else if(msg.payload.paused > 2000 ){\n    current_code+=\"next \";\n}\n*/\nnode.warn(current_code);\nif(current_code === solution_code){\n    node.warn(\"solved\");\n    msg.payload = \"solved\";\n    global.set('current_code',\"\");\n}else if(current_code === solution_code.substring(0,current_code.length)){\n    msg.payload = \"in progress\";\n    global.set('current_code',current_code);\n}else{\n    node.warn(\"failed\");\n    msg.payload = \"failed\"; \n    global.set('current_code',\"\");\n}\n\nreturn msg;",
         "outputs": 1,
@@ -535,15 +530,15 @@
         "y": 100,
         "wires": [
             [
-                "74f7be6f.18944",
-                "4fefbcf2.44c4b4"
+                "b42b378e.4b5268",
+                "1a72444d.0bea3c"
             ]
         ]
     },
     {
-        "id": "74f7be6f.18944",
+        "id": "b42b378e.4b5268",
         "type": "debug",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Ausgabe",
         "active": true,
         "tosidebar": true,
@@ -556,9 +551,9 @@
         "wires": []
     },
     {
-        "id": "10ca7726.15ca09",
+        "id": "79d9fa0b.562cd4",
         "type": "inject",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Variablen zurücksetzen",
         "topic": "",
         "payload": "",
@@ -571,16 +566,16 @@
         "y": 259,
         "wires": [
             [
-                "b1a1adab.870c4"
+                "54f19c.4c60fe64"
             ]
         ]
     },
     {
-        "id": "b1a1adab.870c4",
+        "id": "54f19c.4c60fe64",
         "type": "function",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Globale Variablen setzen",
-        "func": "/*\nshort = <1 Sec. pressed\nlong =  >1 Sec. pressed\nnext =  >2 Sec. pause (next letter)\nword =  >5 Sec. pause (next word)\n*/\nglobal.set('solution_code',\n\"short short short short \" +   //H\n\"short long \" +                //A\n\"short long short short \" + //L\n\"short long short short \" + //L\n\"long long long\")   //O\n\nglobal.set('current_code',\"\")\nglobal.set('position',0);",
+        "func": "/*\nshort = <1 Sec. pressed\nlong =  >1 Sec. pressed\nnext =  >2 Sec. pause (next letter)\nword =  >5 Sec. pause (next word)\n*/\nglobal.set('solution_code',\n\"short short short short \" +   //H\n\"short long \" +                //A\n\"short long short short \" + //L\n\"short long short short \" + //L\n\"long long long \")   //O\n\nglobal.set('current_code',\"\")\nglobal.set('position',0);",
         "outputs": 0,
         "noerr": 0,
         "x": 470,
@@ -588,9 +583,9 @@
         "wires": []
     },
     {
-        "id": "d8ada6f3.b3ac18",
+        "id": "e191a530.579318",
         "type": "change",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Zeit zurücksetzen",
         "rules": [
             {
@@ -610,14 +605,14 @@
         "y": 180,
         "wires": [
             [
-                "4f8522f5.71a65c"
+                "dc47f393.5ce8c"
             ]
         ]
     },
     {
-        "id": "ed480b08.9b21b8",
+        "id": "f44ac42b.2b75e8",
         "type": "interval-length",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "format": "mills",
         "bytopic": true,
         "minimum": "",
@@ -639,15 +634,15 @@
         "y": 60,
         "wires": [
             [
-                "f6aec23d.e417a"
+                "c89af099.89eb4"
             ],
             []
         ]
     },
     {
-        "id": "4f8522f5.71a65c",
+        "id": "dc47f393.5ce8c",
         "type": "interval-length",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "format": "mills",
         "bytopic": false,
         "minimum": "",
@@ -669,28 +664,28 @@
         "y": 180,
         "wires": [
             [
-                "f6aec23d.e417a"
+                "c89af099.89eb4"
             ],
             []
         ]
     },
     {
-        "id": "78a0dfb5.62ad9",
+        "id": "e0268790.7721a8",
         "type": "mqtt out",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "",
         "topic": "morse/set",
         "qos": "",
         "retain": "",
-        "broker": "aad7876.580ea78",
+        "broker": "9897dc40.deeac",
         "x": 1660,
         "y": 200,
         "wires": []
     },
     {
-        "id": "4fefbcf2.44c4b4",
+        "id": "1a72444d.0bea3c",
         "type": "switch",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Richtige oder falsche Antwort",
         "property": "payload",
         "propertyType": "msg",
@@ -713,17 +708,17 @@
         "y": 220,
         "wires": [
             [
-                "78a0dfb5.62ad9"
+                "e0268790.7721a8"
             ],
             [
-                "52bbb501.b786dc"
+                "f9d2ea49.d8c8d8"
             ]
         ]
     },
     {
-        "id": "52bbb501.b786dc",
+        "id": "f9d2ea49.d8c8d8",
         "type": "change",
-        "z": "8e30d363.1c9bf",
+        "z": "c1827fd5.4fdee",
         "name": "Gelöst senden",
         "rules": [
             {
@@ -746,16 +741,16 @@
         ]
     },
     {
-        "id": "6de8897c.eb2138",
+        "id": "94da8d80.d6d2a",
         "type": "tab",
         "label": "Riddle 2",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "2192ce2e.99dae2",
+        "id": "9fb3ebde.b2e298",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 2: 3D-Rätsel lösen -> Schlüssel",
         "info": "",
         "x": 170,
@@ -763,9 +758,9 @@
         "wires": []
     },
     {
-        "id": "54128a75.8b8ca4",
+        "id": "d5226966.b19558",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 3: Schrank mit Schlüssel öffnen -> Verschlüsselter Text erhalten",
         "info": "",
         "x": 270,
@@ -773,9 +768,9 @@
         "wires": []
     },
     {
-        "id": "be427597.c5d3b8",
+        "id": "c7528b1b.bf0728",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 1: 3D-Rätsel finden, Caesar Schlüssel finden, Morse-Button finden, Simon Says finden, 2x Verschlossene Box finden, Alarmanlagen entschlüsselung erhalten",
         "info": "",
         "x": 560,
@@ -783,9 +778,9 @@
         "wires": []
     },
     {
-        "id": "1255b9f0.f81066",
+        "id": "11fb9008.04fb5",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 4: Text mit Caesar Schlüssel lösen -> Morse-Anleitung und Code erhalten",
         "info": "",
         "x": 300,
@@ -793,9 +788,9 @@
         "wires": []
     },
     {
-        "id": "1a16cf6c.e89331",
+        "id": "ac8186f4.a56be8",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 5: Morsen -> eine Kiste öffnet sich und man erhält das Kabelspiel",
         "info": "",
         "x": 270,
@@ -803,40 +798,40 @@
         "wires": []
     },
     {
-        "id": "cdb5638c.1e6d",
+        "id": "ad2fac20.fe98d",
         "type": "mqtt in",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "morse",
         "qos": "2",
         "datatype": "json",
-        "broker": "aad7876.580ea78",
+        "broker": "9897dc40.deeac",
         "x": 110,
         "y": 240,
         "wires": [
             [
-                "dba12e18.2a31"
+                "bd9a0778.aac098"
             ]
         ]
     },
     {
-        "id": "dba12e18.2a31",
-        "type": "subflow:8e30d363.1c9bf",
-        "z": "6de8897c.eb2138",
+        "id": "bd9a0778.aac098",
+        "type": "subflow:c1827fd5.4fdee",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "env": [],
         "x": 270,
         "y": 240,
         "wires": [
             [
-                "9be22c50.e1f88"
+                "b09a5127.7243f"
             ]
         ]
     },
     {
-        "id": "52863089.d2661",
+        "id": "d58be18a.a6f96",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 6: Kabelspiel mit Alarmanleitung lösen -> Simon Says leuchtet auf",
         "info": "",
         "x": 280,
@@ -844,40 +839,40 @@
         "wires": []
     },
     {
-        "id": "d2a506b7.321438",
+        "id": "1f73f2ef.a4cc4d",
         "type": "mqtt in",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "cable-riddle",
         "qos": "2",
         "datatype": "auto",
-        "broker": "aad7876.580ea78",
+        "broker": "9897dc40.deeac",
         "x": 510,
         "y": 420,
         "wires": [
             [
-                "fdc21475.2ccdb8"
+                "d5419f08.53927"
             ]
         ]
     },
     {
-        "id": "c31eba86.b87a78",
-        "type": "subflow:68ce7180.d6e22",
-        "z": "6de8897c.eb2138",
+        "id": "4374ed13.d5c124",
+        "type": "subflow:5eb1a328.a0b30c",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "env": [],
         "x": 720,
         "y": 500,
         "wires": [
             [
-                "dfc70d0f.5ff4"
+                "1e9b61cd.98f44e"
             ]
         ]
     },
     {
-        "id": "458104a9.2fdfdc",
+        "id": "3fe32cc8.885724",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 7: Simon Says lösen -> Letzte Kiste öffnet sich",
         "info": "",
         "x": 220,
@@ -885,9 +880,9 @@
         "wires": []
     },
     {
-        "id": "12ffbd29.ad80f3",
+        "id": "70caf819.494418",
         "type": "comment",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Schritt 8: RFID-Karte liegt in Kiste mit Hinweis das es geschafft ist",
         "info": "",
         "x": 250,
@@ -895,44 +890,44 @@
         "wires": []
     },
     {
-        "id": "e612db62.f27fd8",
+        "id": "c2c4a31c.17dbf",
         "type": "mqtt in",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "simon",
         "qos": "2",
         "datatype": "json",
-        "broker": "aad7876.580ea78",
+        "broker": "9897dc40.deeac",
         "x": 690,
         "y": 640,
         "wires": [
             [
-                "bc14c5d4.e51198"
+                "c7e2d917.0a0e58"
             ]
         ]
     },
     {
-        "id": "62f88f2c.c82dc",
-        "type": "subflow:44ef06f.82cb0f8",
-        "z": "6de8897c.eb2138",
+        "id": "e1cf8ca7.a14d9",
+        "type": "subflow:b7b2c63b.6f06f8",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "env": [],
         "x": 930,
         "y": 700,
         "wires": [
             [
-                "b5cf000f.ca6ad"
+                "62b2ac5d.a71034"
             ]
         ]
     },
     {
-        "id": "9be22c50.e1f88",
+        "id": "b09a5127.7243f",
         "type": "ui_switch",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "label": "Morse-Code gelöst",
         "tooltip": "",
-        "group": "6f8256ee.9d57f8",
+        "group": "3f247525.53a01a",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -952,14 +947,14 @@
         "y": 360,
         "wires": [
             [
-                "fdc21475.2ccdb8"
+                "d5419f08.53927"
             ]
         ]
     },
     {
-        "id": "fdc21475.2ccdb8",
+        "id": "d5419f08.53927",
         "type": "function",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "control",
         "func": "if (msg.topic === \"gate\") {\n    context.pass = (msg.payload === true) ? true : false;\n    return null;  // exit out early as it's just the control\n}\nif (context.pass) {\n    return msg; // if enabled pass msg\n}\nreturn null; // or drop it",
         "outputs": 1,
@@ -968,16 +963,16 @@
         "y": 420,
         "wires": [
             [
-                "8ed4681.49b9698",
-                "c31eba86.b87a78",
-                "1e44244e.f84eac"
+                "8e68f7d7.d7ad48",
+                "4374ed13.d5c124",
+                "8f74d1e4.e2208"
             ]
         ]
     },
     {
-        "id": "8ed4681.49b9698",
+        "id": "8e68f7d7.d7ad48",
         "type": "debug",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Debug",
         "active": false,
         "tosidebar": true,
@@ -990,9 +985,9 @@
         "wires": []
     },
     {
-        "id": "6c54577.562c7a8",
+        "id": "be6e0a2.9364af8",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Aktivieren",
         "payload": "true",
@@ -1005,38 +1000,38 @@
         "y": 300,
         "wires": [
             [
-                "9be22c50.e1f88"
+                "b09a5127.7243f"
             ]
         ]
     },
     {
-        "id": "82f1ff1a.3105f",
+        "id": "47d08b85.75ebd4",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Deaktivieren",
         "payload": "false",
         "payloadType": "bool",
         "repeat": "",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "x": 250,
         "y": 340,
         "wires": [
             [
-                "9be22c50.e1f88"
+                "b09a5127.7243f"
             ]
         ]
     },
     {
-        "id": "b5cf000f.ca6ad",
+        "id": "62b2ac5d.a71034",
         "type": "ui_switch",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "label": "Simon Says gelöst",
         "tooltip": "",
-        "group": "6f8256ee.9d57f8",
+        "group": "3f247525.53a01a",
         "order": 3,
         "width": 0,
         "height": 0,
@@ -1056,15 +1051,15 @@
         "y": 760,
         "wires": [
             [
-                "fec87623.693c58",
-                "26bad1e0.b5956e"
+                "2c4ee52d.8c4a4a",
+                "fa4903be.5c249"
             ]
         ]
     },
     {
-        "id": "26bad1e0.b5956e",
+        "id": "fa4903be.5c249",
         "type": "debug",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Debug",
         "active": false,
         "tosidebar": true,
@@ -1077,9 +1072,9 @@
         "wires": []
     },
     {
-        "id": "d1db8c74.67ade",
+        "id": "aad1bc64.a9edc",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Aktivieren",
         "payload": "true",
@@ -1092,38 +1087,38 @@
         "y": 720,
         "wires": [
             [
-                "b5cf000f.ca6ad"
+                "62b2ac5d.a71034"
             ]
         ]
     },
     {
-        "id": "898370fe.3b2a3",
+        "id": "52116605.c1d208",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Deaktivieren",
         "payload": "false",
         "payloadType": "bool",
         "repeat": "",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "x": 710,
         "y": 760,
         "wires": [
             [
-                "b5cf000f.ca6ad"
+                "62b2ac5d.a71034"
             ]
         ]
     },
     {
-        "id": "dfc70d0f.5ff4",
+        "id": "1e9b61cd.98f44e",
         "type": "ui_switch",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "label": "kabelspiel gelöst",
         "tooltip": "",
-        "group": "6f8256ee.9d57f8",
+        "group": "3f247525.53a01a",
         "order": 2,
         "width": 0,
         "height": 0,
@@ -1143,14 +1138,14 @@
         "y": 580,
         "wires": [
             [
-                "bc14c5d4.e51198"
+                "c7e2d917.0a0e58"
             ]
         ]
     },
     {
-        "id": "bc14c5d4.e51198",
+        "id": "c7e2d917.0a0e58",
         "type": "function",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "control",
         "func": "if (msg.topic === \"gate\") {\n    context.pass = (msg.payload === true) ? true : false;\n    return null;  // exit out early as it's just the control\n}\nif (context.pass) {\n    return msg; // if enabled pass msg\n}\nreturn null; // or drop it",
         "outputs": 1,
@@ -1159,15 +1154,15 @@
         "y": 640,
         "wires": [
             [
-                "1fba33c6.6c07bc",
-                "62f88f2c.c82dc"
+                "2f40e5ed.43228a",
+                "e1cf8ca7.a14d9"
             ]
         ]
     },
     {
-        "id": "1fba33c6.6c07bc",
+        "id": "2f40e5ed.43228a",
         "type": "debug",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "Debug",
         "active": false,
         "tosidebar": true,
@@ -1180,29 +1175,29 @@
         "wires": []
     },
     {
-        "id": "3162b8e0.3635a8",
+        "id": "7fd3752f.62a79c",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Deaktivieren",
         "payload": "false",
         "payloadType": "bool",
         "repeat": "",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "x": 490,
         "y": 580,
         "wires": [
             [
-                "dfc70d0f.5ff4"
+                "1e9b61cd.98f44e"
             ]
         ]
     },
     {
-        "id": "a49a7914.e13058",
+        "id": "c5e9bf2b.2e25b",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Aktivieren",
         "payload": "true",
@@ -1215,18 +1210,18 @@
         "y": 540,
         "wires": [
             [
-                "dfc70d0f.5ff4"
+                "1e9b61cd.98f44e"
             ]
         ]
     },
     {
-        "id": "2595c200.80107e",
+        "id": "c00b50f4.a3846",
         "type": "ui_switch",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "label": "Finale Box öffnen",
         "tooltip": "",
-        "group": "6f8256ee.9d57f8",
+        "group": "3f247525.53a01a",
         "order": 4,
         "width": 0,
         "height": 0,
@@ -1246,14 +1241,14 @@
         "y": 920,
         "wires": [
             [
-                "fec87623.693c58"
+                "2c4ee52d.8c4a4a"
             ]
         ]
     },
     {
-        "id": "bfb3090.924e4f8",
+        "id": "482a009c.49b1",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Aktivieren",
         "payload": "true",
@@ -1266,34 +1261,34 @@
         "y": 880,
         "wires": [
             [
-                "2595c200.80107e"
+                "c00b50f4.a3846"
             ]
         ]
     },
     {
-        "id": "738382ea.d82efc",
+        "id": "3566257b.58fbfa",
         "type": "inject",
-        "z": "6de8897c.eb2138",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "topic": "Deaktivieren",
         "payload": "false",
         "payloadType": "bool",
         "repeat": "",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "x": 710,
         "y": 920,
         "wires": [
             [
-                "2595c200.80107e"
+                "c00b50f4.a3846"
             ]
         ]
     },
     {
-        "id": "1e44244e.f84eac",
-        "type": "subflow:52e0b8d6.b56c78",
-        "z": "6de8897c.eb2138",
+        "id": "8f74d1e4.e2208",
+        "type": "subflow:890b784d.cae6b8",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "env": [],
         "x": 930,
@@ -1301,24 +1296,24 @@
         "wires": []
     },
     {
-        "id": "fec87623.693c58",
-        "type": "subflow:1d96ce19.11d612",
-        "z": "6de8897c.eb2138",
+        "id": "2c4ee52d.8c4a4a",
+        "type": "subflow:c3b0aeb7.ebd5",
+        "z": "94da8d80.d6d2a",
         "name": "",
         "x": 1210,
         "y": 800,
         "wires": []
     },
     {
-        "id": "aad7876.580ea78",
+        "id": "9897dc40.deeac",
         "type": "mqtt-broker",
         "z": "",
-        "name": "mqtt",
-        "broker": "mqtt",
+        "name": "MQTT",
+        "broker": "intia",
         "port": "1883",
         "clientid": "",
         "usetls": false,
-        "compatmode": false,
+        "compatmode": true,
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -1332,18 +1327,18 @@
         "willPayload": ""
     },
     {
-        "id": "6f8256ee.9d57f8",
+        "id": "3f247525.53a01a",
         "type": "ui_group",
         "z": "",
         "name": "Rätsel 2",
-        "tab": "44ddd26a.2ed7cc",
+        "tab": "1da15faa.f267e",
         "order": 2,
         "disp": true,
         "width": "6",
         "collapse": false
     },
     {
-        "id": "44ddd26a.2ed7cc",
+        "id": "1da15faa.f267e",
         "type": "ui_tab",
         "z": "",
         "name": "Escape Game",
