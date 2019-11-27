@@ -1,48 +1,50 @@
 [
     {
-        "id": "3afafda7.59a872",
+        "id": "47f5cd60.76fe04",
         "type": "tab",
         "label": "RFID-Reader",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "674b84b3.1ed5bc",
+        "id": "9519fc1b.69f3c",
         "type": "debug",
-        "z": "3afafda7.59a872",
+        "z": "47f5cd60.76fe04",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 830,
-        "y": 100,
+        "x": 393,
+        "y": 20,
         "wires": []
     },
     {
-        "id": "77364643.67c778",
+        "id": "986e09cd.eb6c28",
         "type": "mqtt in",
-        "z": "3afafda7.59a872",
+        "z": "47f5cd60.76fe04",
         "name": "",
         "topic": "rfid-reader",
         "qos": "2",
-        "datatype": "auto",
-        "broker": "6ac37b43.9b38f4",
-        "x": 400,
-        "y": 100,
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 91,
+        "y": 69,
         "wires": [
             [
-                "47bcffa5.6ed27"
+                "f5831c71.4d673",
+                "9519fc1b.69f3c",
+                "df689847.948418"
             ]
         ]
     },
     {
-        "id": "47bcffa5.6ed27",
+        "id": "f5831c71.4d673",
         "type": "switch",
-        "z": "3afafda7.59a872",
-        "name": "",
+        "z": "47f5cd60.76fe04",
+        "name": "Check card",
         "property": "payload",
         "propertyType": "msg",
         "rules": [
@@ -52,79 +54,223 @@
                 "vt": "str"
             },
             {
+                "t": "cont",
+                "v": "f31c971e",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "317d481c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "3189251c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "31d1f11c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "31f74e1c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "3193741c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "31f4571c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "51e2071e",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "802c2d1c",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "c3d00519",
+                "vt": "str"
+            },
+            {
                 "t": "else"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
-        "x": 590,
-        "y": 100,
+        "outputs": 12,
+        "x": 284,
+        "y": 186,
         "wires": [
             [
-                "674b84b3.1ed5bc",
-                "68f636f7.8f71a8"
+                "9519fc1b.69f3c",
+                "b8020e96.089fb"
             ],
             [
-                "23947642.efcc6a"
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "b8020e96.089fb"
+            ],
+            [
+                "304b3b1f.205784"
             ]
         ]
     },
     {
-        "id": "c42532fb.1c843",
+        "id": "7613b74.b45b048",
         "type": "mqtt out",
-        "z": "3afafda7.59a872",
+        "z": "47f5cd60.76fe04",
         "name": "",
         "topic": "rfid-reader/set",
         "qos": "",
         "retain": "",
-        "broker": "6ac37b43.9b38f4",
-        "x": 920,
-        "y": 160,
+        "broker": "9897dc40.deeac",
+        "x": 695,
+        "y": 120,
         "wires": []
     },
     {
-        "id": "68f636f7.8f71a8",
+        "id": "b8020e96.089fb",
         "type": "function",
-        "z": "3afafda7.59a872",
+        "z": "47f5cd60.76fe04",
         "name": "ACK",
         "func": "msg.payload=\"{\\\"ack\\\":1}\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 730,
-        "y": 160,
+        "x": 505,
+        "y": 120,
         "wires": [
             [
-                "c42532fb.1c843"
+                "7613b74.b45b048"
             ]
         ]
     },
     {
-        "id": "23947642.efcc6a",
+        "id": "304b3b1f.205784",
         "type": "function",
-        "z": "3afafda7.59a872",
+        "z": "47f5cd60.76fe04",
         "name": "Not ACK",
         "func": "msg.payload=\"{\\\"ack\\\":0}\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 740,
-        "y": 220,
+        "x": 515,
+        "y": 180,
         "wires": [
             [
-                "c42532fb.1c843"
+                "7613b74.b45b048"
             ]
         ]
     },
     {
-        "id": "6ac37b43.9b38f4",
+        "id": "df689847.948418",
+        "type": "function",
+        "z": "47f5cd60.76fe04",
+        "name": "Check card",
+        "func": "switch(msg.payload.id){\n    case \"2e24871a\":\n        node.warn(\"Card 1 detected\");\n        global.set('flag1',1);\n        break;\n    case \"f31c971e\":  \n        node.warn(\"Card 2 detected\");\n        global.set('flag2',1);\n        break;\n    case \"317d481c\":   \n        node.warn(\"Card 3 detected\");\n        global.set('flag3',1);\n        break;\n    case \"3189251c\":  \n        node.warn(\"Card 4 detected\");\n        global.set('flag4',1);\n        break;\n    case \"31d1f11c\": \n        node.warn(\"Card 5 detected\");\n        global.set('flag5',1);\n        break;\n    case \"3193741c\": \n        node.warn(\"Card 6 detected\");\n        global.set('flag6',1);\n        break;\n    case \"31f74e1c\":   \n        node.warn(\"Card 7 detected\");\n        global.set('flag7',1);\n        break;\n    case \"51e2071e\": \n        node.warn(\"Card 8 detected\");\n        global.set('flag8',1);\n        break;\n    case \"802c2d1c\":\n        node.warn(\"Card 9 detected\");\n        global.set('flag9',1);\n        break;\n    case \"c3d00519\": \n        node.warn(\"Card 10 detected\");\n        break;\n}\nif(\n    global.get('flag1') === 1 &&\n    global.get('flag2') === 1 &&\n    global.get('flag3') === 1 &&\n    global.get('flag4') === 1 &&\n    global.get('flag5') === 1 &&\n    global.get('flag6') === 1 &&\n    global.get('flag7') === 1 &&\n    global.get('flag8') === 1 &&\n    global.get('flag9') === 1){\n    msg.payload = \"SOLVED\";\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 279,
+        "y": 316,
+        "wires": [
+            [
+                "2219b392.eaf87c"
+            ]
+        ]
+    },
+    {
+        "id": "2219b392.eaf87c",
+        "type": "debug",
+        "z": "47f5cd60.76fe04",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 528,
+        "y": 314,
+        "wires": []
+    },
+    {
+        "id": "109b03a0.83fb6c",
+        "type": "inject",
+        "z": "47f5cd60.76fe04",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 139,
+        "y": 405,
+        "wires": [
+            [
+                "b062b9fb.96c428"
+            ]
+        ]
+    },
+    {
+        "id": "b062b9fb.96c428",
+        "type": "function",
+        "z": "47f5cd60.76fe04",
+        "name": "Set flags",
+        "func": "global.set('flag1',0);\nglobal.set('flag2',0);\nglobal.set('flag3',0);\nglobal.set('flag4',0);\nglobal.set('flag5',0);\nglobal.set('flag6',0);\nglobal.set('flag7',0);\nglobal.set('flag8',0);\nglobal.set('flag9',0);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 406,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9897dc40.deeac",
         "type": "mqtt-broker",
         "z": "",
-        "name": "mqtt",
-        "broker": "mqtt",
+        "name": "MQTT",
+        "broker": "intia",
         "port": "1883",
         "clientid": "",
         "usetls": false,
-        "compatmode": false,
+        "compatmode": true,
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
