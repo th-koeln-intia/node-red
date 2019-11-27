@@ -53,11 +53,11 @@
         ],
         "out": [
             {
-                "x": 780,
+                "x": 968,
                 "y": 220,
                 "wires": [
                     {
-                        "id": "3f7efb8d.535d94",
+                        "id": "b01289fb.8e0648",
                         "port": 0
                     }
                 ]
@@ -170,7 +170,7 @@
         "type": "function",
         "z": "b7b2c63b.6f06f8",
         "name": "Set Variables",
-        "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_amount',6);\n\n// Generate new rounds\nvar round_amount = global.get('round_amount');\nvar round_value=\"\";\nfor (var i=0, t=round_amount; i<t; i++) {\n    rnd_number = Math.floor((Math.random() * 4) + 1);\n    if(i>0){\n        round_value +=\" \";\n    }\n    switch(rnd_number){\n        case 1: \n            round_value+=\"green\";\n            break;\n        case 2:\n            round_value+=\"red\";\n            break;\n        case 3:\n            round_value+=\"blue\";\n            break;\n        case 4:\n            round_value+=\"yellow\";\n            break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    \n/* Hardcoded round\nglobal.set('round_1',\"green\")\nglobal.set('round_2',\"green blue\")\nglobal.set('round_3',\"green blue red\")\nglobal.set('round_4',\"green blue red red\")\nglobal.set('round_5',\"green blue red red yellow\")\nglobal.set('round_6',\"solved\")\n*/\n\nmsg.payload = global.get(\"round_1\");\nreturn msg;",
+        "func": "global.set('round',1);\nglobal.set('position',0);\nglobal.set('round_amount',6);\n\n/*\n// Generate new rounds\nvar round_amount = global.get('round_amount');\nvar round_value=\"\";\nfor (var i=0, t=round_amount; i<t; i++) {\n    rnd_number = Math.floor((Math.random() * 4) + 1);\n    if(i>0){\n        round_value +=\" \";\n    }\n    switch(rnd_number){\n        case 1: \n            round_value+=\"green\";\n            break;\n        case 2:\n            round_value+=\"red\";\n            break;\n        case 3:\n            round_value+=\"blue\";\n            break;\n        case 4:\n            round_value+=\"yellow\";\n            break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n*/\n/* Hardcoded round */\nglobal.set('round_1',\"green\")\nglobal.set('round_2',\"green blue\")\nglobal.set('round_3',\"green blue red\")\nglobal.set('round_4',\"green blue red green\")\nglobal.set('round_5',\"green blue red green yellow\")\nglobal.set('round_6',\"solved\")\n",
         "outputs": 1,
         "noerr": 0,
         "x": 370,
@@ -215,7 +215,7 @@
         "type": "function",
         "z": "b7b2c63b.6f06f8",
         "name": "validate",
-        "func": "// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_raw = global.get('round_'+round);\nvar round_values = round_raw.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"green\":\n        button_color = \"green\";\n        break;\n    case \"red\":\n        button_color = \"red\";\n        break;\n    case \"blue\":\n        button_color = \"blue\";\n        break;\n    case \"yellow\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n     node.warn(\"match\");\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'solved'){\n    msg.payload = round_json;\n    return msg;\n}else{\n      node.warn(\"Default\");\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    \n    // Generate new rounds\n    var round_amount = global.get('round_amount');\n    var round_value=\"\";\n    for (var i=0, t=round_amount; i<t; i++) {\n        rnd_number = Math.floor((Math.random() * 4) + 1);\n        if(i>0){\n            round_value +=\" \";\n        }\n        switch(rnd_number){\n            case 1: \n                round_value+=\"green\";\n                break;\n            case 2:\n                round_value+=\"red\";\n                break;\n            case 3:\n                round_value+=\"blue\";\n                break;\n            case 4:\n                round_value+=\"yellow\";\n                break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    msg.payload = global.get('round_1');\n    return msg;\n}",
+        "func": "if(msg.payload === true){\n    global.set('position',0);\n    global.set('round',1);\n    msg.payload = global.get(\"round_1\");\n    return msg;\n}\n\n\n// Get next Round and the assoziated value\nvar round = global.get('round');\nvar round_raw = global.get('round_'+round);\nvar round_values = round_raw.split(\" \");\n\n// Get Position in the current round\nvar position = global.get('position');\n\n// Get color currently pressed\nvar button = msg.payload.id;\nvar button_color = \"green\";\nswitch(button){\n    case \"green\":\n        button_color = \"green\";\n        break;\n    case \"red\":\n        button_color = \"red\";\n        break;\n    case \"blue\":\n        button_color = \"blue\";\n        break;\n    case \"yellow\":\n        button_color = \"yellow\";\n        break;\n}\n\n// Validate based on current round\nif(button_color === round_values[position]){\n     node.warn(\"match\");\n    if(round_values.length === position+1){\n        round++;\n        global.set('round',round);\n        global.set('position',0);\n        msg.payload = global.get('round_'+round);\n        return msg;\n    }else{\n        global.set('position',position+1);\n    }\n}else if(round_values[0] === 'solved'){\n    msg.payload = round_json;\n    return msg;\n}else{\n      node.warn(\"Default\");\n    // Default: Back to round one\n    global.set('position',0);\n    global.set('round',1);\n    \n    /*\n    // Generate new rounds\n    var round_amount = global.get('round_amount');\n    var round_value=\"\";\n    for (var i=0, t=round_amount; i<t; i++) {\n        rnd_number = Math.floor((Math.random() * 4) + 1);\n        if(i>0){\n            round_value +=\" \";\n        }\n        switch(rnd_number){\n            case 1: \n                round_value+=\"green\";\n                break;\n            case 2:\n                round_value+=\"red\";\n                break;\n            case 3:\n                round_value+=\"blue\";\n                break;\n            case 4:\n                round_value+=\"yellow\";\n                break;\n        }\n        global.set('round_'+(i+1),round_value);\n    }\n    */\n    msg.payload = global.get('round_1');\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "x": 420,
@@ -239,8 +239,8 @@
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 360,
-        "y": 460,
+        "x": 606,
+        "y": 397,
         "wires": []
     },
     {
@@ -277,6 +277,33 @@
         "outputs": 1,
         "x": 650,
         "y": 220,
+        "wires": [
+            [
+                "b01289fb.8e0648"
+            ]
+        ]
+    },
+    {
+        "id": "b01289fb.8e0648",
+        "type": "change",
+        "z": "b7b2c63b.6f06f8",
+        "name": "Gelöst senden",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 838,
+        "y": 221,
         "wires": [
             []
         ]
@@ -409,11 +436,14 @@
         "category": "",
         "in": [
             {
-                "x": 120,
-                "y": 120,
+                "x": 113,
+                "y": 207,
                 "wires": [
                     {
-                        "id": "cb0a3f0b.49673"
+                        "id": "b42b378e.4b5268"
+                    },
+                    {
+                        "id": "f9d2ea49.d8c8d8"
                     }
                 ]
             }
@@ -563,7 +593,7 @@
         "once": true,
         "onceDelay": 0.1,
         "x": 190,
-        "y": 259,
+        "y": 390,
         "wires": [
             [
                 "54f19c.4c60fe64"
@@ -579,7 +609,7 @@
         "outputs": 0,
         "noerr": 0,
         "x": 470,
-        "y": 260,
+        "y": 391,
         "wires": []
     },
     {
@@ -741,6 +771,26 @@
         ]
     },
     {
+        "id": "7c8fd157.7b14c",
+        "type": "inject",
+        "z": "c1827fd5.4fdee",
+        "name": "",
+        "topic": "",
+        "payload": "reset",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 1458,
+        "y": 168,
+        "wires": [
+            [
+                "e0268790.7721a8"
+            ]
+        ]
+    },
+    {
         "id": "94da8d80.d6d2a",
         "type": "tab",
         "label": "Riddle 2",
@@ -824,7 +874,8 @@
         "y": 240,
         "wires": [
             [
-                "b09a5127.7243f"
+                "b09a5127.7243f",
+                "33258640.4c66ea"
             ]
         ]
     },
@@ -865,7 +916,8 @@
         "y": 500,
         "wires": [
             [
-                "1e9b61cd.98f44e"
+                "1e9b61cd.98f44e",
+                "e68819ee.c0f088"
             ]
         ]
     },
@@ -916,7 +968,8 @@
         "y": 700,
         "wires": [
             [
-                "62b2ac5d.a71034"
+                "62b2ac5d.a71034",
+                "b19aca48.756d58"
             ]
         ]
     },
@@ -1138,7 +1191,8 @@
         "y": 580,
         "wires": [
             [
-                "c7e2d917.0a0e58"
+                "c7e2d917.0a0e58",
+                "e1cf8ca7.a14d9"
             ]
         ]
     },
@@ -1302,6 +1356,84 @@
         "name": "",
         "x": 1210,
         "y": 800,
+        "wires": []
+    },
+    {
+        "id": "bbc52c81.639ca",
+        "type": "mqtt out",
+        "z": "94da8d80.d6d2a",
+        "name": "",
+        "topic": "morse/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1031,
+        "y": 212,
+        "wires": []
+    },
+    {
+        "id": "85aabfbf.41d85",
+        "type": "inject",
+        "z": "94da8d80.d6d2a",
+        "name": "",
+        "topic": "",
+        "payload": "reset",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 829,
+        "y": 180,
+        "wires": [
+            [
+                "bbc52c81.639ca"
+            ]
+        ]
+    },
+    {
+        "id": "33258640.4c66ea",
+        "type": "debug",
+        "z": "94da8d80.d6d2a",
+        "name": "Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 492,
+        "y": 317,
+        "wires": []
+    },
+    {
+        "id": "e68819ee.c0f088",
+        "type": "debug",
+        "z": "94da8d80.d6d2a",
+        "name": "Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 910,
+        "y": 544,
+        "wires": []
+    },
+    {
+        "id": "b19aca48.756d58",
+        "type": "debug",
+        "z": "94da8d80.d6d2a",
+        "name": "Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1202,
+        "y": 722,
         "wires": []
     },
     {
