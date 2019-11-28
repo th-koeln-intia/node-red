@@ -1,37 +1,5 @@
 [
     {
-        "id": "c3b0aeb7.ebd5",
-        "type": "subflow",
-        "name": "Kiste öffnen 2",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 50,
-                "y": 30,
-                "wires": []
-            }
-        ],
-        "out": [],
-        "env": []
-    },
-    {
-        "id": "890b784d.cae6b8",
-        "type": "subflow",
-        "name": "Kiste öffnen 1",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 50,
-                "y": 30,
-                "wires": []
-            }
-        ],
-        "out": [],
-        "env": []
-    },
-    {
         "id": "b7b2c63b.6f06f8",
         "type": "subflow",
         "name": "Simon Says",
@@ -1000,7 +968,8 @@
         "y": 360,
         "wires": [
             [
-                "d5419f08.53927"
+                "d5419f08.53927",
+                "e98961c4.61076"
             ]
         ]
     },
@@ -1017,8 +986,7 @@
         "wires": [
             [
                 "8e68f7d7.d7ad48",
-                "4374ed13.d5c124",
-                "8f74d1e4.e2208"
+                "4374ed13.d5c124"
             ]
         ]
     },
@@ -1104,8 +1072,8 @@
         "y": 760,
         "wires": [
             [
-                "2c4ee52d.8c4a4a",
-                "fa4903be.5c249"
+                "fa4903be.5c249",
+                "59148c97.a275a4"
             ]
         ]
     },
@@ -1295,7 +1263,7 @@
         "y": 920,
         "wires": [
             [
-                "2c4ee52d.8c4a4a"
+                "59148c97.a275a4"
             ]
         ]
     },
@@ -1338,25 +1306,6 @@
                 "c00b50f4.a3846"
             ]
         ]
-    },
-    {
-        "id": "8f74d1e4.e2208",
-        "type": "subflow:890b784d.cae6b8",
-        "z": "94da8d80.d6d2a",
-        "name": "",
-        "env": [],
-        "x": 930,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "2c4ee52d.8c4a4a",
-        "type": "subflow:c3b0aeb7.ebd5",
-        "z": "94da8d80.d6d2a",
-        "name": "",
-        "x": 1210,
-        "y": 800,
-        "wires": []
     },
     {
         "id": "bbc52c81.639ca",
@@ -1435,6 +1384,64 @@
         "x": 1202,
         "y": 722,
         "wires": []
+    },
+    {
+        "id": "e4d32d93.b9365",
+        "type": "mqtt out",
+        "z": "94da8d80.d6d2a",
+        "name": "",
+        "topic": "kabel-kiste/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1062,
+        "y": 362,
+        "wires": []
+    },
+    {
+        "id": "e98961c4.61076",
+        "type": "function",
+        "z": "94da8d80.d6d2a",
+        "name": "Ändere Kisten status",
+        "func": "if(msg.payload == true){\n    msg.payload = \"open\";\n}else{\n     msg.payload = \"close\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 819,
+        "y": 361,
+        "wires": [
+            [
+                "e4d32d93.b9365"
+            ]
+        ]
+    },
+    {
+        "id": "c02f6d5a.d5dab",
+        "type": "mqtt out",
+        "z": "94da8d80.d6d2a",
+        "name": "",
+        "topic": "riddle2-kiste/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1478,
+        "y": 857,
+        "wires": []
+    },
+    {
+        "id": "59148c97.a275a4",
+        "type": "function",
+        "z": "94da8d80.d6d2a",
+        "name": "Ändere Kisten status",
+        "func": "if(msg.payload == true){\n    msg.payload = \"open\";\n}else{\n     msg.payload = \"close\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1235,
+        "y": 856,
+        "wires": [
+            [
+                "c02f6d5a.d5dab"
+            ]
+        ]
     },
     {
         "id": "9897dc40.deeac",
