@@ -202,14 +202,15 @@
         "type": "function",
         "z": "47f5cd60.76fe04",
         "name": "Check card",
-        "func": "switch(msg.payload.id){\n    case \"2e24871a\":\n        node.warn(\"Card 1 detected\");\n        global.set('flag1',1);\n        break;\n    case \"f31c971e\":  \n        node.warn(\"Card 2 detected\");\n        global.set('flag2',1);\n        break;\n    case \"317d481c\":   \n        node.warn(\"Card 3 detected\");\n        global.set('flag3',1);\n        break;\n    case \"3189251c\":  \n        node.warn(\"Card 4 detected\");\n        global.set('flag4',1);\n        break;\n    case \"31d1f11c\": \n        node.warn(\"Card 5 detected\");\n        global.set('flag5',1);\n        break;\n    case \"3193741c\": \n        node.warn(\"Card 6 detected\");\n        global.set('flag6',1);\n        break;\n    case \"31f74e1c\":   \n        node.warn(\"Card 7 detected\");\n        global.set('flag7',1);\n        break;\n    case \"51e2071e\": \n        node.warn(\"Card 8 detected\");\n        global.set('flag8',1);\n        break;\n    case \"802c2d1c\":\n        node.warn(\"Card 9 detected\");\n        global.set('flag9',1);\n        break;\n    case \"c3d00519\": \n        node.warn(\"Card 10 detected\");\n        break;\n}\nif(\n    global.get('flag1') === 1 &&\n    global.get('flag2') === 1 &&\n    global.get('flag3') === 1 &&\n    global.get('flag4') === 1 &&\n    global.get('flag5') === 1 &&\n    global.get('flag6') === 1 &&\n    global.get('flag7') === 1 &&\n    global.get('flag8') === 1 &&\n    global.get('flag9') === 1){\n    msg.payload = \"SOLVED\";\n    return msg;\n}\n",
+        "func": "switch(msg.payload.id){\n    case \"2e24871a\":\n        node.warn(\"Card 1 detected\");\n        global.set('flag1',1);\n        break;\n    case \"f31c971e\":  \n        node.warn(\"Card 2 detected\");\n        global.set('flag2',1);\n        break;\n    case \"317d481c\":   \n        node.warn(\"Card 3 detected\");\n        global.set('flag3',1);\n        break;\n    case \"3189251c\":  \n        node.warn(\"Card 4 detected\");\n        global.set('flag4',1);\n        break;\n    case \"31d1f11c\": \n        node.warn(\"Card 5 detected\");\n        global.set('flag5',1);\n        break;\n    case \"3193741c\": \n        node.warn(\"Card 6 detected\");\n        global.set('flag6',1);\n        break;\n    case \"31f74e1c\":   \n        node.warn(\"Card 7 detected\");\n        global.set('flag7',1);\n        break;\n    case \"51e2071e\": \n        node.warn(\"Card 8 detected\");\n        global.set('flag8',1);\n        break;\n    case \"802c2d1c\":\n        node.warn(\"Card 9 detected\");\n        global.set('flag9',1);\n        break;\n    case \"c3d00519\": \n        node.warn(\"Card 10 detected\");\n        break;\n}\nif(\n    global.get('flag1') === 1 &&\n    global.get('flag2') === 1 &&\n    global.get('flag3') === 1 &&\n    global.get('flag4') === 1 &&\n    global.get('flag5') === 1 &&\n    global.get('flag6') === 1 &&\n    global.get('flag7') === 1 &&\n    global.get('flag8') === 1 &&\n    global.get('flag9') === 1){\n    msg.payload = \"open\";\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "x": 279,
         "y": 316,
         "wires": [
             [
-                "2219b392.eaf87c"
+                "2219b392.eaf87c",
+                "fdbc1dc0.3155f"
             ]
         ]
     },
@@ -259,6 +260,40 @@
         "y": 406,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "fdbc1dc0.3155f",
+        "type": "mqtt out",
+        "z": "47f5cd60.76fe04",
+        "name": "",
+        "topic": "final/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 613.0000114440918,
+        "y": 424.0000295639038,
+        "wires": []
+    },
+    {
+        "id": "9191fda7.1f964",
+        "type": "inject",
+        "z": "47f5cd60.76fe04",
+        "name": "",
+        "topic": "",
+        "payload": "close",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 172.10005569458008,
+        "y": 470.0000057220459,
+        "wires": [
+            [
+                "fdbc1dc0.3155f",
+                "b062b9fb.96c428"
+            ]
         ]
     },
     {
