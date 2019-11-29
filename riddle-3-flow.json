@@ -28,7 +28,7 @@
         "type": "mqtt out",
         "z": "b99157da.743c48",
         "name": "Lampe",
-        "topic": "zigbee2mqtt/osram_light/set",
+        "topic": "zigbee2mqtt/hue_light/set",
         "qos": "",
         "retain": "",
         "broker": "9897dc40.deeac",
@@ -167,10 +167,7 @@
         "x": 117,
         "y": 118,
         "wires": [
-            [
-                "a056934d.89fc8",
-                "6ae63830.49def8"
-            ]
+            []
         ]
     },
     {
@@ -2356,7 +2353,9 @@
         "x": 1415,
         "y": 2716,
         "wires": [
-            []
+            [
+                "4ce5f29.dab3d0c"
+            ]
         ]
     },
     {
@@ -2524,7 +2523,7 @@
         "type": "function",
         "z": "b99157da.743c48",
         "name": "Aufgabe Schublade",
-        "func": "msg.payload = \"Bringe die Temperatur auf über 30°C\"\nreturn msg;",
+        "func": "msg.payload = \"Bringe die Temperatur auf über 28°C\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 889.4000205993652,
@@ -2582,7 +2581,7 @@
         "type": "function",
         "z": "b99157da.743c48",
         "name": "Aufgabe Tanzen",
-        "func": "msg.payload = \"Tanzschritte: Tap - Slide - Right - Slide - Left - Tap - Slide - Right - Tap. Reseten macht man mit Shake\"\nreturn msg;",
+        "func": "msg.payload = \"Noch mal von Vorne? Dann erst mal ordentlich schütteln\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 823.4000205993652,
@@ -2787,6 +2786,53 @@
                 "76b7afe3.ca743"
             ]
         ]
+    },
+    {
+        "id": "3a17aed4.b25c02",
+        "type": "mqtt in",
+        "z": "b99157da.743c48",
+        "name": "Hue Glühbirne",
+        "topic": "zigbee2mqtt/hue_light",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "9897dc40.deeac",
+        "x": 106,
+        "y": 170,
+        "wires": [
+            [
+                "a056934d.89fc8",
+                "6ae63830.49def8"
+            ]
+        ]
+    },
+    {
+        "id": "4ce5f29.dab3d0c",
+        "type": "function",
+        "z": "b99157da.743c48",
+        "name": "Ändere Kisten status",
+        "func": "if(msg.payload == true){\n    msg.payload = \"open\";\n}else{\n     msg.payload = \"close\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1410.4000244140625,
+        "y": 2777.39990234375,
+        "wires": [
+            [
+                "197771e1.85d15e"
+            ]
+        ]
+    },
+    {
+        "id": "197771e1.85d15e",
+        "type": "mqtt out",
+        "z": "b99157da.743c48",
+        "name": "",
+        "topic": "kiste3/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1624.400047302246,
+        "y": 2777.3999433517456,
+        "wires": []
     },
     {
         "id": "9897dc40.deeac",
