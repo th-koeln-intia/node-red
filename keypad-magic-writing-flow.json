@@ -192,7 +192,7 @@
         "type": "mqtt in",
         "z": "8b42f82d.851f9",
         "name": "Remote IKEA Lamp",
-        "topic": "zigbee2mqtt/ikeabulb",
+        "topic": "zigbee2mqtt/ikeabulbbbbb",
         "qos": "2",
         "datatype": "auto",
         "broker": "e2690aa3.6461a",
@@ -269,8 +269,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 696,
-        "y": 23,
+        "x": 853,
+        "y": 101,
         "wires": []
     },
     {
@@ -306,8 +306,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 401,
-        "y": 215,
+        "x": 427,
+        "y": 267,
         "wires": [
             [
                 "53077ff0.7d8ba",
@@ -325,8 +325,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1410,
-        "y": 440,
+        "x": 1942,
+        "y": 410,
         "wires": []
     },
     {
@@ -341,8 +341,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1210,
-        "y": 440,
+        "x": 1742,
+        "y": 410,
         "wires": [
             [
                 "774fca33.3d0bf4"
@@ -358,8 +358,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1410,
-        "y": 380,
+        "x": 1942,
+        "y": 350,
         "wires": []
     },
     {
@@ -374,8 +374,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1190,
-        "y": 380,
+        "x": 1722,
+        "y": 350,
         "wires": [
             [
                 "1dd5e1d0.a921b6"
@@ -391,8 +391,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1410,
-        "y": 140,
+        "x": 1931.0000381469727,
+        "y": 136.99999809265137,
         "wires": []
     },
     {
@@ -407,8 +407,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1200,
-        "y": 138,
+        "x": 1721.0000381469727,
+        "y": 134.99999809265137,
         "wires": [
             [
                 "6ab41ce5.acacec"
@@ -424,8 +424,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1410,
-        "y": 200,
+        "x": 1931.0000381469727,
+        "y": 196.99999809265137,
         "wires": []
     },
     {
@@ -440,8 +440,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1200,
-        "y": 200,
+        "x": 1721.0000381469727,
+        "y": 196.99999809265137,
         "wires": [
             [
                 "7dcf9b03.77058c"
@@ -457,8 +457,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1410,
-        "y": 280,
+        "x": 1931.0000381469727,
+        "y": 276.99999809265137,
         "wires": []
     },
     {
@@ -473,8 +473,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1190,
-        "y": 280,
+        "x": 1711.0000381469727,
+        "y": 276.99999809265137,
         "wires": [
             [
                 "26af70a6.6eb2a8"
@@ -490,8 +490,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1390,
-        "y": 540,
+        "x": 1922,
+        "y": 510,
         "wires": []
     },
     {
@@ -506,8 +506,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1200,
-        "y": 540,
+        "x": 1732,
+        "y": 510,
         "wires": [
             [
                 "a37f6526.0f9fc"
@@ -572,10 +572,10 @@
         "payloadType": "json",
         "repeat": "",
         "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 384,
-        "y": 79,
+        "once": true,
+        "onceDelay": "1",
+        "x": 425,
+        "y": 131,
         "wires": [
             [
                 "53077ff0.7d8ba"
@@ -594,8 +594,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 385,
-        "y": 123,
+        "x": 411,
+        "y": 175,
         "wires": [
             [
                 "53077ff0.7d8ba"
@@ -614,8 +614,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1227.6000175476074,
-        "y": 46.00000762939453,
+        "x": 1748.60005569458,
+        "y": 43.0000057220459,
         "wires": [
             [
                 "bca2a1cb.30654"
@@ -631,8 +631,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1399.6000595092773,
-        "y": 45.000009536743164,
+        "x": 1920.60009765625,
+        "y": 42.00000762939453,
         "wires": []
     },
     {
@@ -647,8 +647,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 1226,
-        "y": 82,
+        "x": 1747.0000381469727,
+        "y": 78.99999809265137,
         "wires": [
             [
                 "5c5fcb93.82f014"
@@ -664,8 +664,8 @@
         "qos": "",
         "retain": "",
         "broker": "e2690aa3.6461a",
-        "x": 1398.00004196167,
-        "y": 81.00000190734863,
+        "x": 1919.0000801086426,
+        "y": 78,
         "wires": []
     },
     {
@@ -680,8 +680,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 404,
-        "y": 32,
+        "x": 430,
+        "y": 84,
         "wires": [
             [
                 "53077ff0.7d8ba"
@@ -700,8 +700,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 402,
-        "y": 171,
+        "x": 428,
+        "y": 223,
         "wires": [
             [
                 "53077ff0.7d8ba"
@@ -843,8 +843,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 626,
-        "y": 208,
+        "x": 652,
+        "y": 260,
         "wires": [
             [
                 "d9aac1cf.33a1"
@@ -863,8 +863,8 @@
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
-        "x": 618,
-        "y": 260,
+        "x": 765,
+        "y": 320,
         "wires": [
             [
                 "d9aac1cf.33a1"
@@ -884,7 +884,7 @@
         "height": 0,
         "passthru": true,
         "decouple": "false",
-        "topic": "gate",
+        "topic": "pass1",
         "style": "",
         "onvalue": "true",
         "onvalueType": "bool",
@@ -894,11 +894,11 @@
         "offvalueType": "bool",
         "officon": "clear",
         "offcolor": "red",
-        "x": 907,
-        "y": 152,
+        "x": 1103,
+        "y": 183,
         "wires": [
             [
-                "a036751a.51b518"
+                "2d66692c.25da96"
             ]
         ]
     },
@@ -934,8 +934,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 628,
-        "y": 324,
+        "x": 654,
+        "y": 376,
         "wires": [
             [
                 "6471c858.23aa08"
@@ -954,8 +954,8 @@
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
-        "x": 620,
-        "y": 376,
+        "x": 646,
+        "y": 428,
         "wires": [
             [
                 "6471c858.23aa08"
@@ -985,10 +985,12 @@
         "offvalueType": "bool",
         "officon": "clear",
         "offcolor": "red",
-        "x": 932,
-        "y": 283,
+        "x": 1002,
+        "y": 366,
         "wires": [
-            []
+            [
+                "fe57e459.c74b48"
+            ]
         ]
     },
     {
@@ -996,14 +998,102 @@
         "type": "function",
         "z": "8b42f82d.851f9",
         "name": "control",
-        "func": "if (msg.topic === \"gate\") {\n    context.pass = (msg.payload === true) ? true : false;\n    return null;  // exit out early as it's just the control\n}\nif (context.pass) {\n    return msg; // if enabled pass msg\n}\nreturn null; // or drop it",
+        "func": "if (msg.topic === \"pass1\") {\n    context.pass = (msg.payload === true) ? true : false;\n    return null;  // exit out early as it's just the control\n}\nif (context.pass) {\n    return msg; // if enabled pass msg\n}\nreturn null; // or drop it",
         "outputs": 1,
         "noerr": 0,
-        "x": 453,
-        "y": 324,
+        "x": 479,
+        "y": 376,
         "wires": [
             [
-                "4588a9c8.c700c8"
+                "4588a9c8.c700c8",
+                "95a1a5d0.711f6"
+            ]
+        ]
+    },
+    {
+        "id": "ad901a55.935e",
+        "type": "mqtt out",
+        "z": "8b42f82d.851f9",
+        "name": "",
+        "topic": "magischeschriftkiste/set",
+        "qos": "",
+        "retain": "",
+        "broker": "9897dc40.deeac",
+        "x": 1428,
+        "y": 389,
+        "wires": []
+    },
+    {
+        "id": "fe57e459.c74b48",
+        "type": "function",
+        "z": "8b42f82d.851f9",
+        "name": "Ändere Kisten status",
+        "func": "if(msg.payload == true){\n    msg.payload = \"open\";\n}else{\n     msg.payload = \"close\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1325,
+        "y": 300,
+        "wires": [
+            [
+                "ad901a55.935e"
+            ]
+        ]
+    },
+    {
+        "id": "95a1a5d0.711f6",
+        "type": "debug",
+        "z": "8b42f82d.851f9",
+        "name": "Control",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 1055.5,
+        "y": 298,
+        "wires": []
+    },
+    {
+        "id": "2d66692c.25da96",
+        "type": "delay",
+        "z": "8b42f82d.851f9",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1368.5,
+        "y": 190,
+        "wires": [
+            [
+                "a036751a.51b518"
+            ]
+        ]
+    },
+    {
+        "id": "622769f1.bfc7f8",
+        "type": "inject",
+        "z": "8b42f82d.851f9",
+        "name": "Kiste Initialisieren",
+        "topic": "",
+        "payload": "close",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "x": 1061.5,
+        "y": 101,
+        "wires": [
+            [
+                "ad901a55.935e"
             ]
         ]
     },
@@ -1039,6 +1129,28 @@
         "disp": true,
         "width": "6",
         "collapse": false
+    },
+    {
+        "id": "9897dc40.deeac",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "MQTT",
+        "broker": "intia",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
     },
     {
         "id": "1da15faa.f267e",
